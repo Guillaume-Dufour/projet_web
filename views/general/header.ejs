@@ -1,14 +1,20 @@
-<nav class="navbar navbar expand-sm bg-dark navbar-dark">
-    <a href="#" class="navbar-brand">Logo</a>
-    <ul class="navbar-nav">
-        <li class="nav-item">
-            <a href="#" class="nav-link">Nos produits</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">Se connecter</a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">Contact</a>
-        </li>
-    </ul>
-</nav>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+
+    <%- include('./navigation'); %>
+</head>
+
+<body>
+
+<div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <% if (locals.error) { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+</div>
+<% } %>
+</body>
+</html>
