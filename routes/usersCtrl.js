@@ -7,7 +7,7 @@ router.route('/inscription')
     res.render('inscription');
 })
 
-.post(async function (req,res) {
+.post(function (req,res) {
     var data = {
         nom_utilisateur: req.body.nom,
         prenom_utilisateur: req.body.prenom,
@@ -18,18 +18,31 @@ router.route('/inscription')
         telephone_utilisateur: req.body.telephone
     };
 
-    var exist = await Utilisateur.exist(data.mail_utilisateur);
+    var exist = Utilisateur.exist(data.mail_utilisateur);
 
     console.log(exist);
 
     if (exist == 1) {
-        res.send("L'utilisateur existe déjà")
+        res.send("Salut")
     }
     else {
 
         Utilisateur.create(data);
-        res.send("Utilisateur créé");
+        res.redirect('/');
     }
+});
+
+router.route('/test')
+    .get(async function(req, res) {
+        var exist = await Utilisateur.exist("guillaume@egsb.fr");
+        console.log(exist)
+
+    });
+
+router.get('/guillaume', function (req, res) {
+    Utilisateur.all();
+    res.send("Bonjoru")
+
 })
 
 module.exports = router;

@@ -7,7 +7,7 @@ var app = express();
 
 app.use('/public', express.static(__dirname + '/public'));
 
-app.use(bodyParser.urlencoded({ extended: true}));
+app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
@@ -19,6 +19,10 @@ app.use('/users', userRouter);
 /*app.get('/', function (req, res) {
     res.render('connexion');
 });*/
+
+app.get('/', function (req, res) {
+    res.send("Page d'accueil du site")
+})
 
 app.get('*', function (req, res) {
     res.status(404).send('Erreur');

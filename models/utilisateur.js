@@ -23,15 +23,38 @@ class Utilisateur {
         })
     }
 
-    static exist(mail) {
-        connexion.query("SELECT 1 FROM utilisateur WHERE mail_utilisateur = ?", [mail], function (err, result) {
-            if (err)
-                throw err;
+    /*static exist(mail) {
+        var promess = new Promise(function (resolve, reject) {
+            connexion.query("SELECT * FROM utilisateur WHERE mail_utilisateur = ?", [mail], function (err, result) {
+                if (err)
+                    throw err;
 
-            console.log("result = "+result);
+                if (result[0] === undefined) {
+                    resolve(result);
+                }
+                else {
+                    resolve(result);
+                }
+            })
 
-            return result ? 1 : 0;
         });
+
+        return promess;
+    }*/
+
+    function exist(mail) {
+        connexion.query("SELECT * FROM utilisateur WHERE mail_utilisateur = ?", [mail], function (err, result) {
+            console.log((result));
+        })
+    }
+
+    static all() {
+        connexion.query("SELECT * FROM utilisateur", function (err, result) {
+            if (err) throw err;
+
+            console.log(result);
+
+        })
     }
 
 }
