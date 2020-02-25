@@ -1,11 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var apiRoueter = require('./apiRouter');
-var userRouter = require('./routes/usersCtrl');
+var userRouter = require('./routes/users');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
 var cookie_perso = require('./models/cookie');
+var util = require('./models/utilisateur');
 
 var app = express();
 
@@ -18,13 +18,7 @@ app.use(cookieParser());
 
 app.set('view engine', 'ejs');
 
-//app.use(require('./routes'));
-
 app.use('/users', userRouter);
-
-/*app.get('/', function (req, res) {
-    res.render('connexion');
-});*/
 
 app.get('/', function (req, res) {
     res.render('accueil')
@@ -32,16 +26,14 @@ app.get('/', function (req, res) {
 
 app.get('/guillaume', function (req, res) {
     var decoded = jwt.verify(cookie_perso.getToken(req), cookie_perso.key());
-    res.send(""+decoded.id_utilisateur);
+    util.getUserById(decoded.id_utilisateur, function (result) {
+        var name = result.prenom_utilisateur;
+        res.send(name)
+    });
 })
 
 app.get('*', function (req, res) {
     res.status(404).send('Erreur');
 });
-
-/*app.post('/', function (req, res) {
-    res.send("Bonjour "+req.body.nom);
-
-});*/
 
 app.listen(8080);

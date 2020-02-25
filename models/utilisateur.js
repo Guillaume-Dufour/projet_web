@@ -39,7 +39,7 @@ class Utilisateur {
         })
     }
 
-    static getUserById(id) {
+    static getUserById(id, cb) {
         connexion.query("SELECT * FROM utilisateur WHERE id_utilisateur = ?", [id], function (err, rows) {
             if (err) {
                 throw err;

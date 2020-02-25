@@ -11,4 +11,7 @@ router.route('/login')
     .get(usersCtrl.login_get)
     .post(usersCtrl.login_post)
 
+router.route('/homepage')
+    .get(usersCtrl.homepage)
+
 module.exports = router;
