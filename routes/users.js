@@ -1,15 +1,14 @@
-var express = require('express');
-var router = express.Router();
-
-module.exports = {
-  inscription: function (req, res) {
-    res.render('inscription');
-
-  },
+let express = require('express');
+let router = express.Router();
+let usersCtrl = require('../controllers/usersCtrl');
 
 
+router.route('/inscription')
+    .get(usersCtrl.inscription_get)
+    .post(usersCtrl.inscription_post)
 
-  login: function (req, res) {
+router.route('/login')
+    .get(usersCtrl.login_get)
+    .post(usersCtrl.login_post)
 
-  }
-}
+module.exports = router;

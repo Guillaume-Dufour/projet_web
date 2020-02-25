@@ -1,17 +1,9 @@
-let express = require('express');
-let router = express.Router();
-let Utilisateur = require('../models/utilisateur');
-let bcrypt = require('bcrypt');
-let jwt = require('jsonwebtoken');
-let cookie_perso = require('../models/cookie');
+module.exports = {
+    inscription_get: function (req, res) {
+        res.render('inscription', {error: ""});
+    },
 
-router.route('/inscription')
-    .get(function (req, res) {
-    res.render('inscription', {error: ""});
-    })
-
-    .post(function (req,res) {
-
+    inscription_post: function (req, res) {
         var errors = {};
 
         const REGEX_MAIL = /(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;;
@@ -58,32 +50,13 @@ router.route('/inscription')
         else {
             res.render('inscription', { errors });
         }
+    },
 
-    });
+    login_get: function (req, res) {
+        res.render('login');
+    },
 
-router.route('/login')
-    .get(function (req, res) {
-        res.render('login')
-    })
-    /*.post(function (req, res) {
-        Utilisateur.getUserByMail(req.body.mail, function (result) {
-            if (result === 0) {
-                res.render('/login', { error: "Mail saisi introuvable" });
-            }
-            else {
-                var password_ok = bcrypt.compareSync(req.body.password, result.password_utilisateur);
-
-                if (password_ok) {
-                    Utilisateur.connect();
-                }
-                else {
-                    res.send("T'es nul")
-                }
-            }
-
-        })
-    })*/
-    .post(function (req, res) {
+    login_post: function (req, res) {
         Utilisateur.connect(req.body.mail, req.body.password, function (code_retour, user) {
             console.log("code retour : "+code_retour)
             if (code_retour === 1) {
@@ -94,6 +67,6 @@ router.route('/login')
                 res.render('homepage');
             }
         });
-    })
 
-module.exports = router;
+    },
+}
