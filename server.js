@@ -10,6 +10,7 @@ var util = require('./models/utilisateur');
 var app = express();
 
 app.use('/public', express.static(__dirname + '/public'));
+app.use('/views', express.static(__dirname + '/views'));
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());

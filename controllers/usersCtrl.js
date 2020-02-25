@@ -83,7 +83,7 @@ module.exports = {
                 res.send("T'es un vendeur");
                 break;
             case 3:
-                res.render('homepage');
+                res.render('users/client/homepage');
                 break;
         }
     }
