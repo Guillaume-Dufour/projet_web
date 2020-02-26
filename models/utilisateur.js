@@ -82,7 +82,7 @@ class Utilisateur {
                     cb(1, result);
                 }
                 else {
-                    return cb(0);
+                    cb(0);
                 }
             }
 
