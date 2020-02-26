@@ -14,4 +14,7 @@ router.route('/login')
 router.route('/homepage')
     .get(usersCtrl.homepage)
 
+router.route('/deconnect')
+    .get(usersCtrl.deconnect)
+
 module.exports = router;

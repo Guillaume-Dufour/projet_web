@@ -5,7 +5,7 @@ let cookie_perso = require('../models/cookie');
 
 module.exports = {
     inscription_get: function (req, res) {
-        res.render('inscription', {error: "", data: ""});
+        res.render('inscription', {errors: [], data: ""});
     },
 
     inscription_post: async function (req, res) {
@@ -51,54 +51,56 @@ module.exports = {
             delete data.password_utilisateur;
         }
 
-        if (data.telephone_utilisateur.charAt(0) !== '0' || data.telephone_utilisateur.length > 10) {
-            errors.push("Saisie du numéro de téléphone invalide");
-            delete data.telephone_utilisateur;
+        if (data.telephone_utilisateur !== undefined) {
+            if (data.telephone_utilisateur.charAt(0) !== '0' || data.telephone_utilisateur.length > 10) {
+                errors.push("Saisie du numéro de téléphone invalide");
+                delete data.telephone_utilisateur;
+            }
         }
 
-        await Utilisateur.exist(data.mail_utilisateur, function (result) {
+        Utilisateur.exist(data.mail_utilisateur, function(result) {
             if (result === 1) {
                 errors.push("Mail déjà existant");
                 delete data.mail_utilisateur;
             }
-        });
 
-        console.log(errors)
-        console.log(data)
+            if (errors.length === 0) {
+                Utilisateur.create(data);
+                res.redirect('/users/login');
+            }
+            else {
+                delete data.password_utilisateur;
+                res.render('inscription', { errors : errors, data: data });
+            }
+        })
 
-        if (errors.length === 0) {
-            Utilisateur.create(data);
-            res.redirect('/');
-        }
-        else {
-            delete data.password_utilisateur;
-            res.render('inscription', { errors : errors, data: data });
-        }
+
+
     },
 
     login_get: function (req, res) {
-        res.render('login');
+        console.log("TOken = "+cookie_perso.getToken(req));
+        res.render('login', {error: undefined, mail: undefined});
     },
 
     login_post: function (req, res) {
-        Utilisateur.connect(req.body.mail, req.body.password, function (code_retour, user) {
+        Utilisateur.canConnect(req.body.mail, req.body.password, function (code_retour, user) {
             console.log("code retour : "+code_retour);
 
             switch (code_retour) {
                 case -2:
-                    res.render('login', {error: "Vous n'avez pas renseignés tous les champs requis"});
+                    res.render('login', {error: "Vous n'avez pas renseignés tous les champs requis", mail: undefined});
                     break;
                 case -1:
-                    res.render('login', {error: "Le mail n'existe pas"});
+                    res.render('login', {error: "Le mail n'existe pas", mail: undefined});
                     break;
                 case 0:
-                    res.render('login', {error: "Le mot de passe est incorrect"});
+                    res.render('login', {error: "Le mot de passe est incorrect", mail: req.body.mail});
                     break;
                 case 1:
                     var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, cookie_perso.key(), {expiresIn: '2h'});
                     cookie_perso.setToken(jwt_token, res);
                     console.log("token : "+jwt_token)
-                    console.log("cookie : "+cookie_perso.getToken(req))
                     res.redirect('/users/homepage');
                     break;
                 default:
@@ -109,18 +111,32 @@ module.exports = {
     },
 
     homepage: function (req, res) {
-        var token_decoded = jwt.verify(cookie_perso.getToken(req), cookie_perso.key());
 
-        switch (token_decoded.type_utilisateur) {
-            case 1:
-                res.render('users/admin/homepage');
-                break;
-            case 2:
-                res.render('users/vendeur/homepage');
-                break;
-            case 3:
-                res.render('users/client/homepage');
-                break;
+        if (req.cookies['secretToken'] !== undefined) {
+            var token_decoded = jwt.verify(cookie_perso.getToken(req), cookie_perso.key());
+
+            switch (token_decoded.type_utilisateur) {
+                case 1:
+                    res.render('users/admin/homepage');
+                    break;
+                case 2:
+                    res.render('users/vendeur/homepage');
+                    break;
+                case 3:
+                    res.render('users/client/homepage');
+                    break;
+            }
         }
+        else {
+            res.redirect('/users/login')
+        }
+
+    },
+
+    deconnect: function (req, res) {
+        res.clearCookie('secretToken');
+        res.redirect('/users/login');
+
+
     }
 }

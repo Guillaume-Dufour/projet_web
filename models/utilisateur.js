@@ -23,6 +23,8 @@ class Utilisateur {
         })
     }
 
+
+
     static getUserByMail(mail, cb) {
         connexion.query("SELECT * FROM utilisateur WHERE mail_utilisateur = ?", [mail], function (err, rows) {
             if (err) {
@@ -64,7 +66,7 @@ class Utilisateur {
         })
     }
 
-    static connect(mail, password, cb) {
+    static canConnect(mail, password, cb) {
         if (mail === undefined || password === undefined) {
             // retourne 2 si le mail ou le password ne sont pas renseignés
             cb(-2);

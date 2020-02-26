@@ -6,4 +6,9 @@ router.route('/homepage')
         res.send("salut");
     })
 
+router.route('/commandes')
+    .get(function (req, res) {
+
+    })
+
 module.exports = router;

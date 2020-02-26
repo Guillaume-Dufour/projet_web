@@ -4,14 +4,41 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
     <title>Accueil vendeur</title>
-    <%- include('../../general/navigation'); %>
+    <%- include('../../general/navigation', {estConnecte: 1}); %>
 </head>
 
 
 <body>
 
-<p>Je suis vendeur</p>
+<div class="text-right">
+    <a href="#" class="btn btn-primary">Consulter les commandes</a>
+</div>
+<div class="text-center">
+    <a href="#" class="btn btn-secondary">Gérer les produits</a>
+</div>
+
+<div class="text-right">
+    <a href="javascript:history.back()" class="btn btn-warning">Back</a>
+</div>
+
+<input type="button" id="bouton" value="salut">
 
 </body>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#bouton').click(function (req, res) {
+            var t = document.getElementById("bouton").type;
+
+            if (t == "button") {
+                document.getElementById("bouton").type = "text"
+            }
+            else {
+                document.getElementById("bouton").type = "button"
+            }
+        });
+    });
+</script>
 
 </html>

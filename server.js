@@ -21,8 +21,10 @@ app.set('view engine', 'ejs');
 
 app.use('/users', userRouter);
 
+
 app.get('/', function (req, res) {
-    res.render('accueil')
+    let estConnecte = (req.cookies['secretToken'] ? 1 : 0);
+    res.render('accueil', {estConnecte: estConnecte});
 })
 
 app.get('/guillaume', function (req, res) {
