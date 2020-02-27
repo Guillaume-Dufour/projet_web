@@ -12,7 +12,7 @@ var util = require('./models/utilisateur');
 var app = express();
 
 app.use('/public', express.static(__dirname + '/public'));
-app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
+//app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());

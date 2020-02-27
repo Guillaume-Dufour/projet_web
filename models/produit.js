@@ -16,7 +16,7 @@ class Produit {
 
     static getAllProduits(cb) {
 
-        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit";
+        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit ORDER BY p.libelle_produit";
 
         connexion.query(requete, [],  function (err, rows) {
             if (err) {
