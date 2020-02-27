@@ -10,10 +10,27 @@
 
 <body>
 
-<div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
-    <% for (var i = 0; i < commandes.length; i++) { %>
-
-    <% } %>
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Date de la commande</th>
+            <th scope="col">Date de retrait</th>
+            <th scope="col">Statut de la commande</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 1; i <= commandes.length; i++) { %>
+            <tr>
+                <th scope="row"><a href="/users/client/commandes/<%= commandes[i-1].id_commande %>"><%= i %></a></th>
+                <td><%= commandes[i-1].date_commande %></td>
+                <td><%= commandes[i-1].date_retrait_commande %></td>
+                <td><%= commandes[i-1].libelle_statut_commande %></td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
 </div>
 
 

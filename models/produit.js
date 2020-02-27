@@ -10,8 +10,23 @@ class Produit {
         })
     }
 
-    static getIdTypeProduit(libelle) {
+    static getIdTypeProduit(libelle, sous_libelle) {
 
+    }
+
+    static getAllProduits(cb) {
+
+        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit";
+
+        connexion.query(requete, [],  function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows)
+            }
+
+        })
     }
 
 }

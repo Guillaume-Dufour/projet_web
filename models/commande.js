@@ -19,9 +19,30 @@ class Commande {
                 throw err;
             }
             else {
+                console.log(rows)
                 cb(rows)
             }
         });
+    }
+
+    static getCommandeById(id, cb) {
+
+        let requete = "SELECT p.libelle_produit, c2.quantite_produit, p.photo_produit, p.prix_produit, p.type_vente_produit " +
+            "FROM commande c1 " +
+            "JOIN contenu_commande c2 ON c2.id_commande=c1.id_commande " +
+            "JOIN produit p ON p.id_produit=c2.id_produit " +
+            "JOIN statut_commande s ON s.id_statut_commande=c1.id_statut_commande " +
+            "WHERE c1.id_commande = ?";
+
+        connexion.query(requete, [id], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+        })
+
     }
 
 }
