@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var userRouter = require('./routes/users');
 var clientRouter = require('./routes/client');
+let produitRouter = require('./routes/produit')
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
@@ -11,7 +12,6 @@ var util = require('./models/utilisateur');
 var app = express();
 
 app.use('/public', express.static(__dirname + '/public'));
-app.use('/views', express.static(__dirname + '/views'));
 app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
 
 app.use(bodyParser.urlencoded({ extended: false}));
@@ -23,6 +23,7 @@ app.set('view engine', 'ejs');
 
 app.use('/users', userRouter);
 app.use('/users/client', clientRouter);
+app.use('/produits', produitRouter);
 
 
 app.get('/', function (req, res) {

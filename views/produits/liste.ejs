@@ -4,34 +4,13 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
     <title>Liste des produits</title>
-    <%- include('../../general/navigation', {estConnecte: 0}); %>
+    <%- include('../general/navigation', {estConnecte: 0}); %>
 </head>
 
 
 <body>
 
-<div class="container">
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Nom du produit</th>
-            <th scope="col">Quantité</th>
-            <th scope="col">Prix</th>
-        </tr>
-        </thead>
-        <tbody>
-        <% for (var i = 1; i <= commande.length; i++) { %>
-            <tr>
-                <th scope="row"><%= i %></th>
-                <td><%= commande[i-1].libelle_produit %></td>
-                <td><%= commande[i-1].quantite_produit %></td>
-                <td><%= commande[i-1].prix %></td>
-            </tr>
-        <% } %>
-        </tbody>
-    </table>
-</div>
+Salut
 
 
 </body>
