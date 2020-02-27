@@ -1,7 +1,7 @@
 let Utilisateur = require('../models/utilisateur');
 let bcrypt = require('bcrypt');
 let jwt = require('jsonwebtoken');
-let cookie_perso = require('../models/cookie');
+let token = require('../models/token');
 
 module.exports = {
     inscription_get: function (req, res) {
@@ -79,7 +79,7 @@ module.exports = {
     },
 
     login_get: function (req, res) {
-        console.log("TOken = "+cookie_perso.getToken(req));
+        console.log("TOken = "+token.getToken(req));
         res.render('login', {error: undefined, mail: undefined});
     },
 
@@ -89,7 +89,7 @@ module.exports = {
 
             switch (code_retour) {
                 case -2:
-                    res.render('login', {error: "Vous n'avez pas renseignés tous les champs requis", mail: undefined});
+                    res.render('login', {error: "Vous n'avez pas renseigné tous les champs requis", mail: undefined});
                     break;
                 case -1:
                     res.render('login', {error: "Le mail n'existe pas", mail: undefined});
@@ -98,8 +98,8 @@ module.exports = {
                     res.render('login', {error: "Le mot de passe est incorrect", mail: req.body.mail});
                     break;
                 case 1:
-                    var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, cookie_perso.key(), {expiresIn: '2h'});
-                    cookie_perso.setToken(jwt_token, res);
+                    var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, token.key(), {expiresIn: '2h'});
+                    token.setToken(jwt_token, res);
                     console.log("token : "+jwt_token)
                     res.redirect('/users/homepage');
                     break;
@@ -113,7 +113,7 @@ module.exports = {
     homepage: function (req, res) {
 
         if (req.cookies['secretToken'] !== undefined) {
-            var token_decoded = jwt.verify(cookie_perso.getToken(req), cookie_perso.key());
+            var token_decoded = jwt.verify(token.getToken(req), token.key());
 
             switch (token_decoded.type_utilisateur) {
                 case 1:

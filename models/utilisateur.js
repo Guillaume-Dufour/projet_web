@@ -1,6 +1,5 @@
 var connexion = require('../config/db');
 let bcrypt = require('bcrypt');
-var cookie_perso = require('cookie');
 
 class Utilisateur {
 

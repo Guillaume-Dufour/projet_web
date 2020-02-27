@@ -1,5 +1,8 @@
 let express = require('express');
 let router = express.Router();
+let clientCtrl = require('../controllers/clientCtrl');
+
+
 
 router.route('/homepage')
     .get(function (req, res) {
@@ -7,8 +10,6 @@ router.route('/homepage')
     })
 
 router.route('/commandes')
-    .get(function (req, res) {
-
-    })
+    .get(clientCtrl.commandes_list)
 
 module.exports = router;

@@ -1,10 +1,11 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var userRouter = require('./routes/users');
+var clientRouter = require('./routes/client');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
-var cookie_perso = require('./models/cookie');
+var cookie_perso = require('./models/token');
 var util = require('./models/utilisateur');
 
 var app = express();
@@ -20,6 +21,7 @@ app.use(cookieParser());
 app.set('view engine', 'ejs');
 
 app.use('/users', userRouter);
+app.use('/client', clientRouter);
 
 
 app.get('/', function (req, res) {

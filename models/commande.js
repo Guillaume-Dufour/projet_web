@@ -10,18 +10,18 @@ class Commande {
         })
     }
 
-    static allOfUser(id) {
+    static allCommandesOfUser(id, cb) {
 
-        let requete =   "SELECT * FROM commande c1 " +
-                        "JOIN contenu_commande c2 ON c1.id_commande=c2.id_commande " +
-                        "JOIN statuc_commande s ON s.id_statut_commande=c1.id_statut_commande"+
-                        "WHERE id_utilisateur = ?"
+        let requete =   "SELECT * FROM commande c JOIN statut_commande s ON s.id_statut_commande=c.id_statut_commande WHERE c.id_utilisateur = ?";
         
         connexion.query(requete, [id], function (err, rows) {
-
-
-        })
-
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows)
+            }
+        });
     }
 
 }
