@@ -1,5 +1,6 @@
 let Produit = require('../models/produit');
 let Commande = require('../models/commande');
+let Panier =
 
 module.exports = {
     liste: function (req, res) {
@@ -14,8 +15,8 @@ module.exports = {
         })
     },
 
-    insert_panier: function (req, res) {
-        Commande.insertProduitInPanier(req.body.id_commande, req.body.id_produit, req.body.quantite);
-        res.redirect('/produits/liste');
-    }
+    details_post: function(req, res) {
+
+
+    },
 }

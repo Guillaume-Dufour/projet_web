@@ -56,6 +56,21 @@ class Commande {
         });
     }
 
+    static exist(id_commande, cb) {
+
+        let requete = "SELECT count(*) as nb FROM commande WHERE id_commande = ?";
+
+        connexion.query(requete, [id_commande], function (err, row) {
+            if (err) {
+                throw err;
+            }
+            else {
+                console.log(row[0]);
+                cb(row[0].nb);
+            }
+        })
+    }
+
 }
 
 module.exports = Commande;

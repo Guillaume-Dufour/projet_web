@@ -25,4 +25,13 @@ router.route('/commandes')
 router.route('/commandes/:id_commande')
     .get(clientCtrl.commande_details)
 
+router.route('/panier')
+    .get(clientCtrl.panier);
+
+router.route('/add_panier')
+    .post(clientCtrl.add_panier)
+
+router.route('/produits_favoris')
+    .get(clientCtrl.produits_favoris)
+
 module.exports = router;

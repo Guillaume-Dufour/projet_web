@@ -18,7 +18,18 @@
         <%= produit[0].libelle_produit %>
     </div>
 
-    <form action="/produits/details" method="post"></form>
+    <form action="/users/client/add_panier" method="post">
+        <div class="form-group">
+            <label for="quantite">Quantité</label> :
+            <input type="number" class="form-control" id="quantite" name="quantite" required/>
+        </div>
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-warning" value="Ajouter au panier">
+        </div>
+        <input type="hidden" id="id_produit" name="id_produit" value="<%= produit[0].id_produit %>">
+    </form>
+
+
 
 
 

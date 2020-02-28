@@ -8,6 +8,7 @@ let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
 var cookie_perso = require('./models/token');
 var util = require('./models/utilisateur');
+let Commande = require('./models/commande');
 
 var app = express();
 
@@ -29,6 +30,10 @@ app.use('/produits', produitRouter);
 app.get('/', function (req, res) {
     let estConnecte = (req.cookies['secretToken'] ? 1 : 0);
     res.render('accueil', {estConnecte: estConnecte});
+});
+
+app.get('/test', async function (req, res) {
+    res.render('test_form');
 })
 
 app.get('/guillaume', function (req, res) {

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Mes produits favoris</title>
+    <%- include('../../general/navigation', {estConnecte: 1}); %>
+</head>
+
+
+<body>
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Nom du produit</th>
+        <th scope="col">Provenance</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Poids</th>
+        <th scope="col">Bio</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% for (var i = 0; i < produits.length; i++) { %>
+        <tr>
+            <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
+            <th><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
+            <td><%= produits[i].provenance_produit %></td>
+            <td><%= produits[i].prix_produit %> € / kg</td>
+            <td><% if (produits[i].poids_produit < 1) { %>
+                    <%= produits[i].poids_produit*1000 %> g
+                <% }
+                else { %>
+                    <%= produits[i].poids_produit %> kg
+                <% } %></td>
+            <td><% if (produits[i].est_bio === 0) { %>
+                    Non
+                <% }
+                else { %>
+                    Oui
+                <% } %></td>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
+
+
+</body>
+
+</html>

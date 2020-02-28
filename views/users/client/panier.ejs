@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Mon panier</title>
+    <%- include('../../general/navigation', {estConnecte: 1}); %>
+</head>
+
+
+<body>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Photo du produit</th>
+        <th scope="col">Nom du produit</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Poids</th>
+        <th scope="col">Quantité commandée</th>
+        <th scope="col">Montant à payer</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <%  var prix_total = 0;
+        for (var i = 0; i < panier.length; i++) {
+        prix_total += panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit %>
+        <tr>
+            <td><img src="/public/images/produits/<%= panier[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
+            <td><%= panier[i].libelle_produit %></td>
+            <td><%= panier[i].prix_produit %> € / kg</td>
+            <td><% if (panier[i].poids_produit < 1) { %>
+                    <%= panier[i].poids_produit*1000 %> g
+                <% }
+                else { %>
+                    <%= panier[i].poids_produit %> kg
+                <% } %></td>
+            <td><%= panier[i].quantite%></td>
+            <td><%= panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit %> €</td>
+            <td><a href="#" class="btn btn-warning">Supprimer</a></td>
+        </tr>
+    <% } %>
+    </tbody>
+</table>
+
+Prix total : <%= prix_total %> €
+
+</body>
+
+</html>
