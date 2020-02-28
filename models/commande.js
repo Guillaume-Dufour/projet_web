@@ -45,6 +45,17 @@ class Commande {
 
     }
 
+    static insertProduitInPanier(id_commande, id_produit, quantite) {
+
+        let requete = "INSERT INTO contenu_commande SET id_commande = ?, id_produit = ?, quantite_produit = ?";
+
+        connexion.query(requete, [id_commande, id_produit, quantite], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+        });
+    }
+
 }
 
 module.exports = Commande;

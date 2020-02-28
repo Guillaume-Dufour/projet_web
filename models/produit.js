@@ -29,6 +29,19 @@ class Produit {
         })
     }
 
+    static getProduitById(id_produit, cb) {
+
+        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit WHERE p.id_produit = ?";
+
+        connexion.query(requete, [id_produit], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+        });
+    }
 }
 
 module.exports = Produit;

@@ -9,21 +9,40 @@
 
 
 <body>
-
-<% for (var i = 0; i < produits.length; i += 3) { %>
-    <div class="container row">
-        <div class="col">
-            <img src="/public/images/produits/<%= produits[i].photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col">
-            <img src="/public/images/produits/<%= produits[i+1].photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="col">
-            <img src="/public/images/produits/<%= produits[i+2].photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
-        </div>
-        <div class="w-100"></div>
-    </div>
-<% } %>
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nom du produit</th>
+            <th scope="col">Provenance</th>
+            <th scope="col">Prix</th>
+            <th scope="col">Poids</th>
+            <th scope="col">Bio</th>
+            <th scope="col">Photo</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < produits.length; i++) { %>
+            <tr>
+                <th><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
+                <td><%= produits[i].provenance_produit %></td>
+                <td><%= produits[i].prix_produit %> € / kg</td>
+                <td><% if (produits[i].poids_produit < 1) { %>
+                    <%= produits[i].poids_produit*1000 %> g
+                <% }
+                else { %>
+                    <%= produits[i].poids_produit %> kg
+                <% } %></td>
+                <td><% if (produits[i].est_bio === 0) { %>
+                        Non
+                    <% }
+                    else { %>
+                        Oui
+                        <% } %></td>
+                <td><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
 
 
 </body>

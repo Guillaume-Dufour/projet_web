@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Détails du produit</title>
+    <%- include('../general/navigation', {estConnecte: 0}); %>
+</head>
+
+
+<body>
+
+<div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <div class="text-center">
+        <img src="/public/images/produits/<%= produit[0].photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
+    </div>
+    <div class="text-center">
+        <%= produit[0].libelle_produit %>
+    </div>
+
+    <form action="/produits/details" method="post"></form>
+
+
+
+</div>
+<a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
+</body>
+
+</html>
