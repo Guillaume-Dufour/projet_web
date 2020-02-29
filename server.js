@@ -17,13 +17,13 @@ var app = express();
 app.use('/public', express.static(__dirname + '/public'));
 //app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
 
-const jsdom = require("jsdom");
+/*const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
 const { window } = new JSDOM();
 const { document } = (new JSDOM('')).window;
 global.document = document;
 const $ = jQuery = require('jquery')(window);
-global.$ = $;
+global.$ = $;*/
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -49,7 +49,8 @@ app.get('/', function (req, res) {
 })
 
 app.delete('/', function (req, res) {
-    res.send("Salut");
+    console.log(req.body.id);
+    //Panier.deleteProduit(19,0);
 })
 
 app.get('/guillaume', function (req, res) {
