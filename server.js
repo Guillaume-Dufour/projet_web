@@ -3,37 +3,53 @@ var bodyParser = require('body-parser');
 var userRouter = require('./routes/users');
 var clientRouter = require('./routes/client');
 let produitRouter = require('./routes/produit')
+let vendeurRouter = require('./routes/vendeur');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
 var cookie_perso = require('./models/token');
 var util = require('./models/utilisateur');
-let Commande = require('./models/commande');
+let Panier = require('./models/panier');
+let methodOverride = require('method-override');
 
 var app = express();
 
 app.use('/public', express.static(__dirname + '/public'));
 //app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
 
+const jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
+const $ = jQuery = require('jquery')(window);
+global.$ = $;
+
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
 app.use(expressSanitizer());
 app.use(cookieParser());
+app.use(methodOverride('_method'));
 
 app.set('view engine', 'ejs');
 
 app.use('/users', userRouter);
 app.use('/users/client', clientRouter);
+app.use('/users/vendeur', vendeurRouter);
 app.use('/produits', produitRouter);
 
 
-app.get('/', function (req, res) {
+/*app.get('/', function (req, res) {
     let estConnecte = (req.cookies['secretToken'] ? 1 : 0);
     res.render('accueil', {estConnecte: estConnecte});
-});
+});*/
 
-app.get('/test', async function (req, res) {
-    res.render('test_form');
+app.get('/', function (req, res) {
+    res.render('login_test')
+})
+
+app.delete('/', function (req, res) {
+    res.send("Salut");
 })
 
 app.get('/guillaume', function (req, res) {

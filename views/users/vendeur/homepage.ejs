@@ -25,18 +25,23 @@
 
 </body>
 
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#bouton').click(function (req, res) {
-            var t = document.getElementById("bouton").className;
-            console.log(t)
-
-            if (t === "btn btn-warning") {
-                document.getElementById("bouton").className = "btn btn-danger"
-            }
-            else {
-                document.getElementById("bouton").className = "btn btn-warning"
-            }
+        $('#bouton').click(function () {
+            $.ajax({
+                url: '/',
+                type: 'DELETE',
+                dataType: 'html',
+                success: function () {
+                    console.log("Ca marche !")
+                }
+            })
         });
     });
 </script>

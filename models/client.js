@@ -25,6 +25,22 @@ class Client {
         connexion.query(requete, [id_utilisateur, id_produit]);
     }
 
+    static all(cb) {
+
+        let requete = "SELECT * FROM utilisateur WHERE type_utilisateur = 3";
+
+        connexion.query(requete, [], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+
+        })
+
+    }
+
 }
 
 module.exports = Client;

@@ -117,13 +117,13 @@ module.exports = {
 
             switch (token_decoded.type_utilisateur) {
                 case 1:
-                    res.render('users/admin/homepage');
+                    res.redirect('/users/admin/homepage');
                     break;
                 case 2:
-                    res.render('users/vendeur/homepage');
+                    res.redirect('/users/vendeur/homepage');
                     break;
                 case 3:
-                    res.render('users/client/homepage');
+                    res.redirect('/users/client/homepage');
                     break;
             }
         }

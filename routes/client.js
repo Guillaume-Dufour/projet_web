@@ -1,22 +1,16 @@
 let express = require('express');
 let router = express.Router();
 let clientCtrl = require('../controllers/clientCtrl');
+let usersMdlw = require('../middlewares/usersMdlw');
 let jwt = require('jsonwebtoken');
 
-router.use(function (req, res, next) {
-    if (req.cookies['secretToken'] !== undefined) {
-        //var token_decoded = jwt.verify()
-        next();
-    }
-    else {
-        res.redirect('/');
-    }
-})
+
+router.use(usersMdlw.is_connected);
+router.use(usersMdlw.is_client);
+
 
 router.route('/homepage')
-    .get(function (req, res) {
-        res.send("salut");
-    })
+    .get(clientCtrl.homepage)
 
 
 router.route('/commandes')

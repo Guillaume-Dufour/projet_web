@@ -10,6 +10,11 @@ class Commande {
         })
     }
 
+    static all(cb) {
+
+        let requete = "SELECT "
+    }
+
     static allCommandesOfUser(id, cb) {
 
         let requete =   "SELECT * FROM commande c JOIN statut_commande s ON s.id_statut_commande=c.id_statut_commande WHERE c.id_utilisateur = ?";
@@ -45,16 +50,7 @@ class Commande {
 
     }
 
-    static insertProduitInPanier(id_commande, id_produit, quantite) {
 
-        let requete = "INSERT INTO contenu_commande SET id_commande = ?, id_produit = ?, quantite_produit = ?";
-
-        connexion.query(requete, [id_commande, id_produit, quantite], function (err, rows) {
-            if (err) {
-                throw err;
-            }
-        });
-    }
 
     static exist(id_commande, cb) {
 

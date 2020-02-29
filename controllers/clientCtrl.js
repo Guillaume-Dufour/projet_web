@@ -6,7 +6,7 @@ let Client = require('../models/client');
 
 module.exports = {
     homepage: function (req, res) {
-
+        res.render('users/client/homepage');
     },
 
     commandes_list: function (req, res) {

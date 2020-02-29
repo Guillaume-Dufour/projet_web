@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Connexion</title>
+    <%- include('general/navigation', {estConnecte: 0}); %>
+</head>
+
+
+<body>
+
+<form method="post" action="/{{id}}?_method=DELETE">
+
+    <div class="form-group">
+        <label for="mail">Mail</label> :
+        <input type="email" class="form-control" name="mail" id="mail" />
+    </div>
+
+    <div class="form-group">
+        <label for="password">Mot de passe</label> :
+        <input type="password" class="form-control" name="password" id="password" required />
+    </div>
+
+    <div class="text-center">
+        <input type="submit" class="btn btn-primary" value="Se connecter">
+    </div>
+    <input type="hidden" name="_method" value="DELETE">
+</form>
+<br>
+<div class="text-center">
+    <a class="btn btn-secondary" href="/users/inscription">Pas de compte ? Inscrivez-vous !</a>
+</div>
+
+
+
+
+</body>
+
+</html>
