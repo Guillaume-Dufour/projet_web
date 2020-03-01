@@ -31,7 +31,7 @@
         <tr id="ligne_<%= i%>">
             <td><img src="/public/images/produits/<%= panier[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
             <td><%= panier[i].libelle_produit %></td>
-            <td><%= panier[i].prix_produit %> € / kg</td>
+            <td id="prix<%= i %>"><%= panier[i].prix_produit %> € / kg</td>
             <td><% if (panier[i].poids_produit < 1) { %>
                     <%= panier[i].poids_produit*1000 %> g
                 <% }
@@ -50,9 +50,6 @@
                             data: {id_produit: <%= panier[i].id_produit %>},
                             dataType: 'html',
                             success: function () {
-                                /*let prix_total = document.getElementById('prix_total').textContent;
-                                let new_prix_total = prix_total - panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit;
-                                document.getElementById('prix_total').innerText = new_prix_total;*/
                                 $(document.getElementById('ligne_<%= i %>')).toggle('fast');
                             },
                             error: function () {
@@ -67,12 +64,6 @@
     </tbody>
 </table>
 
-Prix total :
-<div id="prix_total">
-    <%= prix_total %>
-</div> €
-<br>
-
 <%
 let d = new Date();
 let day = d.getDate();
@@ -81,6 +72,15 @@ let year = d.getFullYear();
 let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+day : day);
 %>
 
+<% if (panier.length > 0) { %>
+    <div id="prix_total" class="d-flex flex-row">
+        Prix total :
+        <div id="valeur_prix">
+            <%= prix_total %>
+        </div>
+         €
+    </div>
+    <br>
 <form action="/users/client/panier" method="post">
     <div class="form-group">
         <label for="date_retrait_commande">Date</label> :
@@ -94,6 +94,7 @@ let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+da
 
     <input type="submit" class="btn btn-success" value="Valider la commande">
 </form>
+<% } %>
 
 </body>
 

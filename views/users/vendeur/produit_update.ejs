@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Modification produit</title>
+    <%- include('../../general/navigation'); %>
+</head>
+
+
+<body>
+
+<div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <form method="post" action="/users/vendeur/produit_create" enctype="multipart/form-data">
+
+        <div class="form-group">
+            <label for="libelle_produit">Nom</label> :
+            <input type="text" class="form-control" name="libelle_produit" id="libelle_produit" <% if (data !== undefined && data.libelle_produit !== undefined) {
+            %> value="<%= data.libelle_produit %>" <% } %> required />
+        </div>
+
+        <div class="form-group">
+            <label for="id_type_produit">Type</label> :
+            <select name="id_type_produit" id="id_type_produit">
+                <% for (var i = 0; i < types.length; i++) { %>
+                    <option value="<%= types[i].id_type_produit %>"><%= types[i].libelle_type_produit+(types[i].libelle_sous_type_produit !== null ? " - "+types[i].libelle_sous_type_produit : "") %></option>
+                <% } %>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="poids_produit">Poids</label> (en kg) :
+            <input type="number" step="0.001" min="0" class="form-control" name="poids_produit" id="poids_produit" <% if (data !== undefined && data.poids_produit !== undefined) {
+            %> value="<%= data.poids_produit %>" <% } %> required />
+        </div>
+
+        <div class="form-group">
+            <label for="prix_produit">Prix</label> (en €) :
+            <input type="number" step="0.01" min="0" class="form-control" name="prix_produit" id="prix_produit" <% if (data !== undefined && data.prix_produit !== undefined) {
+            %> value="<%= data.prix_produit %>" <% } %> required />
+        </div>
+
+        <div class="form-group">
+            <label for="provenance_produit">Provenance</label> :
+            <input type="text" class="form-control" name="provenance_produit" id="provenance_produit" <% if (data !== undefined && data.provenance_produit !== undefined) {
+            %> value="<%= data.provenance_produit %>" <% } %> required />
+        </div>
+
+        <div class="form-group">
+            <label for="est_bio"><input type="checkbox" value="1"> Bio</label>
+        </div>
+
+        <div class="form-group">
+            <label for="gencod_produit">Gencod</label> :
+            <input type="text" class="form-control" name="gencod_produit" id="gencod_produit" <% if (data !== undefined && data.gencod_produit !== undefined) {
+            %> value="<%= data.gencod_produit %>" <% } %> />
+        </div>
+
+        <div class="form-group">
+            <label for="photo_produit">Photo</label> :
+            <input type="file" name="photo_produit" multiple>
+        </div>
+
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary btn-dr" value="Créer le produit">
+        </div>
+    </form>
+</div>
+<br>
+
+</body>
+
+</html>

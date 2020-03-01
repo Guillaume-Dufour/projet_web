@@ -5,6 +5,7 @@ let usersMdlw = require('../middlewares/usersMdlw');
 let connection = require('../config/db');
 
 router.use(usersMdlw.is_connected);
+router.use(usersMdlw.type_user)
 
 router.route('/liste')
     .get(produitCtrl.liste)

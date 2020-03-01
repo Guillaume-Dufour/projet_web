@@ -63,5 +63,14 @@ module.exports = {
         else {
             res.redirect('/users/login');
         }
+    },
+
+    type_user: function (req, res, next) {
+        if (req.cookies['secretToken'] !== undefined) {
+            let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+            res.locals.type_utilisateur = token_decoded.type_utilisateur;
+        }
+
+        next();
     }
 }

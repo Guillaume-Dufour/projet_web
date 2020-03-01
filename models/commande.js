@@ -4,12 +4,16 @@ class Commande {
 
     static create(data, cb) {
 
+        let requete1 = "INSERT INTO commande SET ?";
+        let requete2 = "INSERT INTO contenu_commande SELECT id_produit, ?, quantite FROM panier WHERE id_utilisateur = ? "
+
         connexion.query("INSERT INTO commande SET ?", data, function (err, result) {
             if (err) {
                 throw err;
             }
             else {
-                cb(result)
+                connexion.query(requete2, [result.insertId, data.id_utilisateur]);
+                cb();
             }
         })
     }

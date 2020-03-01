@@ -100,7 +100,6 @@ module.exports = {
                 case 1:
                     var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, token.key(), {expiresIn: '2h'});
                     token.setToken(jwt_token, res);
-                    console.log("token : "+jwt_token)
                     res.redirect('/users/homepage');
                     break;
                 default:
@@ -136,7 +135,5 @@ module.exports = {
     deconnect: function (req, res) {
         res.clearCookie('secretToken');
         res.redirect('/users/login');
-
-
     }
 }

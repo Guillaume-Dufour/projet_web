@@ -7,9 +7,6 @@ let Utilisateur = require('../models/utilisateur');
 
 module.exports = {
     homepage: function (req, res) {
-        res.cookie('panier', {});
-
-        console.log(req.cookies['panier'])
         res.render('users/client/homepage');
     },
 
@@ -56,8 +53,7 @@ module.exports = {
             res.redirect('/');
         }
         else {
-            res.cookie('panier')
-            //Panier.addProduit(token_decoded.id_utilisateur,req.body.id_produit,req.body.quantite);
+            Panier.addProduit(token_decoded.id_utilisateur,req.body.id_produit,req.body.quantite);
             res.redirect('/produits/liste');
         }
 
@@ -104,11 +100,9 @@ module.exports = {
             id_utilisateur: token_decoded.id_utilisateur
         }
 
-        Commande.create(data, function (result) {
-            let id_commande = result.insertId;
-
-
-        })
+        Commande.create(data, function () {
+            Panier.empty(data.id_utilisateur);
+        });
 
         res.redirect('/users/homepage');
     }
