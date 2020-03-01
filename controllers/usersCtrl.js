@@ -28,7 +28,7 @@ module.exports = {
             errors.push("Aucun titre de civilité n'a été coché")
         }
 
-        if (data.nom_utilisateur .length> 100) {
+        if (data.nom_utilisateur.length > 100) {
             errors.push("Le nom saisi est trop long (100 caractères maximum)");
             delete data.nom_utilisateur;
         }

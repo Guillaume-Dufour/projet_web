@@ -48,6 +48,15 @@ app.use('/produits', produitRouter);
 });*/
 
 app.get('/', function (req, res) {
+    let d = new Date();
+    let day = d.getDate();
+    let month = d.getMonth()+1;
+    let year = d.getFullYear();
+    let hour = d.getHours();
+    let minutes = d.getMinutes();
+    let secondes = d.getSeconds();
+    let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+day : day)+' '+(hour < 10 ? "0"+hour : hour)+':'+(minutes < 10 ? "0"+minutes : minutes)+':'+(secondes < 10 ? "0"+secondes : secondes);
+    console.log(full_date)
     res.render('accueil')
 })
 
@@ -63,15 +72,20 @@ app.post('/', function (req, res) {
 })
 
 app.get('/guillaume', function (req, res) {
-    var decoded = jwt.verify(cookie_perso.getToken(req), cookie_perso.key());
-    util.getUserById(decoded.id_utilisateur, function (result) {
-        var name = result.prenom_utilisateur;
-        res.send(name)
-    });
+    require('fs').stat('public/images/bvdf.jpg', function (err) {
+        if (!err) {
+            console.log("Fichier existe")
+        }
+        else if (err.code === 'ENOENT') {
+            console.log("Fichier n'existe pas")
+        }
+        res.redirect('/');
+    })
 })
 
 app.get('*', function (req, res) {
-    res.status(404).send('Erreur');
+    res.status(404);
+    res.render('error')
 });
 
 app.listen(8080);

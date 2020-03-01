@@ -23,6 +23,7 @@ router.route('/commandes/:id_commande')
 
 router.route('/panier')
     .get(clientCtrl.panier)
+    .post(clientCtrl.valid_commande)
     .delete(clientCtrl.delete_panier);
 
 router.route('/add_panier')

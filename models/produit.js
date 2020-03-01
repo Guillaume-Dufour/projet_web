@@ -14,16 +14,30 @@ class Produit {
 
     }
 
-    static getAllProduits(cb) {
+    static getAllTypesProduits(cb) {
 
-        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit ORDER BY p.libelle_produit";
+        let requete = "SELECT * FROM type_produit ORDER BY libelle_type_produit, libelle_sous_type_produit";
+
+        connexion.query(requete, [], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+        })
+    }
+
+    static getAllProduitsDispo(cb) {
+
+        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit WHERE p.est_dispo=1 ORDER BY p.libelle_produit";
 
         connexion.query(requete, [],  function (err, rows) {
             if (err) {
                 throw err;
             }
             else {
-                cb(rows)
+                cb(rows);
             }
 
         })

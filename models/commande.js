@@ -2,10 +2,14 @@ let connexion = require('../config/db');
 
 class Commande {
 
-    static create(data) {
+    static create(data, cb) {
+
         connexion.query("INSERT INTO commande SET ?", data, function (err, result) {
             if (err) {
                 throw err;
+            }
+            else {
+                cb(result)
             }
         })
     }
@@ -65,6 +69,13 @@ class Commande {
                 cb(row[0].nb);
             }
         })
+    }
+
+    static addContenuCommande(data) {
+
+        let requete = "INSERT INTO contenu_commande SET = ?";
+
+        connexion.query(requete, data);
     }
 
 }

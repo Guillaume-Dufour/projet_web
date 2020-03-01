@@ -7,6 +7,9 @@ let Utilisateur = require('../models/utilisateur');
 
 module.exports = {
     homepage: function (req, res) {
+        res.cookie('panier', {});
+
+        console.log(req.cookies['panier'])
         res.render('users/client/homepage');
     },
 
@@ -53,7 +56,8 @@ module.exports = {
             res.redirect('/');
         }
         else {
-            Panier.addProduit(token_decoded.id_utilisateur,req.body.id_produit,req.body.quantite);
+            res.cookie('panier')
+            //Panier.addProduit(token_decoded.id_utilisateur,req.body.id_produit,req.body.quantite);
             res.redirect('/produits/liste');
         }
 
@@ -79,6 +83,34 @@ module.exports = {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Client.addProduitFavori(token_decoded.id_utilisateur,req.body.id_produit_favori);
         res.redirect('/produits/details/'+req.body.id_produit_favori);
+    },
+
+    valid_commande: async function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+
+        let d = new Date();
+        let day = d.getDate();
+        let month = d.getMonth()+1;
+        let year = d.getFullYear();
+        let hour = d.getHours();
+        let minutes = d.getMinutes();
+        let secondes = d.getSeconds();
+        let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+day : day)+' '+(hour < 10 ? "0"+hour : hour)+':'+(minutes < 10 ? "0"+minutes : minutes)+':'+(secondes < 10 ? "0"+secondes : secondes);
+
+        let data = {
+            date_commande: full_date,
+            date_retrait_commande: req.body.date_retrait_commande+" "+req.body.heure_retrait_commande,
+            id_statut_commande: 1,
+            id_utilisateur: token_decoded.id_utilisateur
+        }
+
+        Commande.create(data, function (result) {
+            let id_commande = result.insertId;
+
+
+        })
+
+        res.redirect('/users/homepage');
     }
 
 

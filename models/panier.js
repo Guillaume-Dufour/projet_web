@@ -37,6 +37,12 @@ class Panier {
             }
         })
     }
+
+    static empty(id_utilsateur) {
+
+        let requete = "DELETE FROM panier WHERE id_utilisateur = ?";
+
+    }
 }
 
 module.exports = Panier;

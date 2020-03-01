@@ -15,4 +15,8 @@ router.route('/homepage')
 router.route('/infos_clients')
     .get(vendeurCtrl.clients_list)
 
+router.route('/produit_create')
+    .get(vendeurCtrl.produit_create_get)
+    .post(vendeurCtrl.produit_create_post)
+
 module.exports = router;

@@ -4,7 +4,7 @@ let Panier =
 
 module.exports = {
     liste: function (req, res) {
-        Produit.getAllProduits(function (rows) {
+        Produit.getAllProduitsDispo(function (rows) {
 
             res.render('produits/liste', {produits: rows});
         })
