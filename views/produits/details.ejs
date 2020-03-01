@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
     <title>Détails du produit</title>
-    <%- include('../general/navigation', {estConnecte: locals.estConnecte}); %>
+    <%- include('../general/navigation2', {estConnecte: locals.estConnecte}); %>
 </head>
 
 
@@ -28,6 +28,13 @@
                 <input type="submit" class="btn btn-warning" value="Ajouter au panier">
             </div>
             <input type="hidden" id="id_produit" name="id_produit" value="<%= produit[0].id_produit %>">
+        </form>
+
+        <form action="/users/client/add_produit_favori" method="post">
+            <div class="form-group text-center">
+                <input type="submit" class="btn btn-primary" name="produit_favori" value="Ajouter aux produits favoris">
+            </div>
+            <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit[0].id_produit %>">
         </form>
     <% } %>
 

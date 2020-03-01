@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
     <title>Mon panier</title>
-    <%- include('../../general/navigation', {estConnecte: 1}); %>
+    <%- include('../../general/navigation'); %>
 </head>
 
 
 <body>
 
-<table class="table">
+<table class="table" id="table">
     <thead class="thead-dark">
     <tr>
         <th scope="col">Photo du produit</th>
@@ -25,8 +25,10 @@
     <tbody>
     <%  var prix_total = 0;
         for (var i = 0; i < panier.length; i++) {
-        prix_total += panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit %>
-        <tr>
+            prix = panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit;
+            prix = Math.round(prix*100)/100;
+            prix_total += prix %>
+        <tr id="ligne_<%= i%>">
             <td><img src="/public/images/produits/<%= panier[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
             <td><%= panier[i].libelle_produit %></td>
             <td><%= panier[i].prix_produit %> € / kg</td>
@@ -37,17 +39,46 @@
                     <%= panier[i].poids_produit %> kg
                 <% } %></td>
             <td><%= panier[i].quantite%></td>
-            <td><%= panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit %> €</td>
-            <td><a href="#" class="btn btn-warning">Supprimer</a></td>
+            <td id="prix_produit_<%= i %>"><%= prix %> €</td>
+            <td><button id="button_delete<%= i %>" class="btn btn-warning">Supprimer</button></td>
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#button_delete<%= i %>').click(function () {
+                        $.ajax({
+                            url: '/users/client/panier',
+                            type: 'DELETE',
+                            data: {id_produit: <%= panier[i].id_produit %>},
+                            dataType: 'html',
+                            success: function () {
+                                /*let prix_total = document.getElementById('prix_total').textContent;
+                                let new_prix_total = prix_total - panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit;
+                                document.getElementById('prix_total').innerText = new_prix_total;*/
+                                $(document.getElementById('ligne_<%= i %>')).toggle('fast');
+                            },
+                            error: function () {
+                                console.log("Erreur");
+                            }
+                        })
+                    });
+                });
+            </script>
         </tr>
     <% } %>
     </tbody>
 </table>
 
-Prix total : <%= prix_total %> €
+Prix total :
+<div id="prix_total">
+    <%= prix_total %>
+</div> €
 <br>
 <a href="#" class="btn btn-primary">Passer la commande</a>
 
 </body>
 
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
 </html>

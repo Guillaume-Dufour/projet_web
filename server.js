@@ -1,9 +1,9 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var userRouter = require('./routes/users');
-var clientRouter = require('./routes/client');
+var clientRouter = require('./routes/clientRouter');
 let produitRouter = require('./routes/produit')
-let vendeurRouter = require('./routes/vendeur');
+let vendeurRouter = require('./routes/vendeurRouter');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
@@ -11,10 +11,12 @@ var cookie_perso = require('./models/token');
 var util = require('./models/utilisateur');
 let Panier = require('./models/panier');
 let methodOverride = require('method-override');
+let fileUpload = require('express-fileupload');
 
 var app = express();
 
 app.use('/public', express.static(__dirname + '/public'));
+app.use(express('views'));
 //app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
 
 /*const jsdom = require("jsdom");
@@ -30,6 +32,7 @@ app.use(bodyParser.json());
 app.use(expressSanitizer());
 app.use(cookieParser());
 app.use(methodOverride('_method'));
+app.use(fileUpload());
 
 app.set('view engine', 'ejs');
 
@@ -45,12 +48,18 @@ app.use('/produits', produitRouter);
 });*/
 
 app.get('/', function (req, res) {
-    res.render('login_test')
+    res.render('accueil')
 })
 
-app.delete('/', function (req, res) {
-    console.log(req.body.id);
-    //Panier.deleteProduit(19,0);
+app.post('/', function (req, res) {
+    let france = req.files.guillaume;
+    france.mv('public/images/france.jpg', function (err) {
+        if (err) {
+            console.log(err)
+        }
+
+    })
+    res.redirect('/');
 })
 
 app.get('/guillaume', function (req, res) {

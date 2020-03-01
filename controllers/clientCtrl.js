@@ -3,10 +3,18 @@ let Token = require('../models/token');
 let Commande = require('../models/commande');
 let Panier = require('../models/panier');
 let Client = require('../models/client');
+let Utilisateur = require('../models/utilisateur');
 
 module.exports = {
     homepage: function (req, res) {
         res.render('users/client/homepage');
+    },
+
+    profil: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (rows) {
+            res.render('users/client/profil', {infos: rows});
+        })
     },
 
     commandes_list: function (req, res) {
@@ -51,6 +59,13 @@ module.exports = {
 
     },
 
+    delete_panier: async function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        console.log(req.body.id_produit);
+        await Panier.deleteProduit(token_decoded.id_utilisateur,req.body.id_produit)
+        res.end();
+    },
+
     produits_favoris: function (req, res) {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Client.getProduitsFavoris(token_decoded.id_utilisateur, function (rows) {
@@ -62,8 +77,8 @@ module.exports = {
 
     add_produit_favori: function (req, res) {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
-        Client.addProduitFavori(token_decoded.id_utilisateur,5);
-        res.redirect('/');
+        Client.addProduitFavori(token_decoded.id_utilisateur,req.body.id_produit_favori);
+        res.redirect('/produits/details/'+req.body.id_produit_favori);
     }
 
 

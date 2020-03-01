@@ -23,40 +23,14 @@
                     <a class="dropdown-item" href="#">Viande</a>
                 </div>
             </li>
-
-            <% if (estConnecte === 0) { %>
             <li class="nav-item">
-                <a class="nav-link" href="/users/login">Se connecter</a>
+                    <a class="nav-link" href="/users/homepage">Accueil</a></li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Modifier mon profil</a>
             </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/inscription">S'inscrire</a>
-                </li>
-            <% } %>
-            <% if (estConnecte === 1) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/homepage">Mon profil</a>
-                </li>
-            <% } %>
-            <% if (estConnecte === 1) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/client/panier">Mon panier</a>
-                </li>
-            <% } %>
-            <% if (estConnecte === 1) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/deconnect">Déconnexion</a>
-                </li>
-            <% } %>
-            <% if (estConnecte === 1) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Modifier mon profil</a>
-                </li>
-            <% } %>
-            <% if (estConnecte === 1) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="/users/client/produits_favoris">Mes produits favoris</a>
-                </li>
-            <% } %>
+            <li class="nav-item">
+                <a class="nav-link" href="/users/deconnect">Déconnexion</a>
+            </li>
 
 
         </ul>

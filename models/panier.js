@@ -13,12 +13,20 @@ class Panier {
 
         let requete = "DELETE FROM panier WHERE id_utilisateur = ? AND id_produit = ?";
 
-        connexion.query(requete, [id_utilisateur, id_produit]);
+        connexion.query(requete, [id_utilisateur, id_produit], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                console.log(rows)
+            }
+
+        });
     }
 
     static getProduits(id_utilisateur, cb) {
 
-        let requete = "SELECT p.photo_produit, p.libelle_produit, p.prix_produit, p.poids_produit, pa.quantite FROM panier pa JOIN produit p ON p.id_produit=pa.id_produit WHERE pa.id_utilisateur = ?";
+        let requete = "SELECT p.id_produit, p.photo_produit, p.libelle_produit, p.prix_produit, p.poids_produit, pa.quantite FROM panier pa JOIN produit p ON p.id_produit=pa.id_produit WHERE pa.id_utilisateur = ?";
 
         connexion.query(requete, [id_utilisateur], function (err, rows) {
             if (err) {

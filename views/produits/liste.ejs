@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
     <title>Liste des produits</title>
-    <%- include('../general/navigation', {estConnecte: locals.estConnecte}); %>
+    <%- include('../general/navigation2', {estConnecte : 0}); %>
 </head>
 
 
@@ -21,11 +21,11 @@
 
         </tr>
         </thead>
-        <tbody>
+        <tbody id="list_produits">
         <% for (var i = 0; i < produits.length; i++) { %>
             <tr>
                 <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
-                <th><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
+                <th id="nom_produit"><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
                 <td><%= produits[i].provenance_produit %></td>
                 <td><%= produits[i].prix_produit %> € / kg</td>
                 <td><% if (produits[i].poids_produit < 1) { %>
@@ -47,5 +47,14 @@
 
 
 </body>
-
+<script>
+    $(document).ready(function(){
+        $("#search_box").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#list_produits tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
 </html>

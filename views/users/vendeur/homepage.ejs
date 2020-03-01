@@ -13,16 +13,27 @@
 <div class="text-right">
     <a href="#" class="btn btn-primary">Consulter les commandes</a>
 </div>
-<div class="text-center">
-    <a href="#" class="btn btn-secondary">Gérer les produits</a>
+<div class="text-left">
+    <a href="/users/vendeur/infos_clients" class="btn btn-primary">Consuler les infos client</a>
 </div>
-
+<div class="text-center" id="gerer">
+    <a href="#" class="btn btn-secondary">Ajouter un produit</a>
+</div>
+<div class="text-center" id="gerer2">
+    <a href="#" class="btn btn-secondary">Modifier un produit</a>
+</div>
+<div>
+    <a href="#" class="btn btn-secondary">Gérer les disponibilités des produits</a>
+</div>
+<div>
+    <a href="#" class="btn btn-dark"></a>
+</div>
 <div class="text-right">
     <a href="javascript:history.back()" class="btn btn-warning">Back</a>
 </div>
-
-<input type="button" id="bouton" class="btn btn-warning" value="salut">
-
+<div id="test">
+    Salut
+</div>
 </body>
 
 
@@ -33,17 +44,7 @@
 </script>
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#bouton').click(function () {
-            $.ajax({
-                url: '/',
-                type: 'DELETE',
-                data: {id: 12},
-                dataType: 'html',
-                success: function () {
-                    console.log("Ca marche !")
-                }
-            })
-        });
+        $('#bouton').keyup
     });
 </script>
 

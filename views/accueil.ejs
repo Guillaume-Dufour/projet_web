@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
     <title>Connexion</title>
-    <%- include('general/navigation', {estConnecte: estConnecte}); %>
+    <%- include('general/navigation'); %>
 </head>
 
 
 <body>
 
 <div class="">
-    <p>Accueil du site</p>
+    <form action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="guillaume" multiple>
+        <input type="submit" value="Upload">
+    </form>
 </div>
 </div>
 

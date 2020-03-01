@@ -12,4 +12,7 @@ router.use(usersMdlw.is_vendeur);
 router.route('/homepage')
     .get(vendeurCtrl.homepage)
 
+router.route('/infos_clients')
+    .get(vendeurCtrl.clients_list)
+
 module.exports = router;

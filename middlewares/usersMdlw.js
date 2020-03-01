@@ -19,6 +19,7 @@ module.exports = {
             let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
 
             if (token_decoded.type_utilisateur === 1) {
+                res.locals.type_utilisateur=1;
                 next();
             }
             else {
@@ -35,6 +36,7 @@ module.exports = {
             let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
 
             if (token_decoded.type_utilisateur === 2) {
+                res.locals.type_utilisateur=2;
                 next();
             }
             else {
@@ -51,6 +53,7 @@ module.exports = {
             let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
 
             if (token_decoded.type_utilisateur === 3) {
+                res.locals.type_utilisateur=3;
                 next();
             }
             else {
