@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Liste des commandes du jour</title>
+    <%- include('../../general/navigation'); %>
+</head>
+
+
+<body>
+
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Numéro</th>
+            <th scope="col">Client</th>
+            <th scope="col">Date de retrait</th>
+            <th scope="col">Statut</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <% for (var i = 0; i < commandes.length; i++) { %>
+            <tr>
+                <th scope="row"><%= commandes[i].id_commande %></th>
+                <td><%= commandes[i].titre+" "+commandes[i].nom_utilisateur+" "+commandes[i].prenom_utilisateur %></td>
+                <td><%= commandes[i].date_retrait_commande %></td>
+                <td><%= commandes[i].libelle_statut_commande %></td>
+                <td><a href="#" class="btn btn-primary">Voir la commande</a></td>
+                <td><button id="button_update<%= i %>" class="btn btn-warning">Mettre à jour</button></td>
+
+            </tr>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+
+</body>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
+
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Chercher des commandes</title>
+    <%- include('../../general/navigation'); %>
+</head>
+
+
+<body>
+
+<%
+let d = new Date();
+let day = d.getDate();
+let month = d.getMonth()+1;
+let year = d.getFullYear();
+let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+day : day);
+%>
+
+<form action="/users/vendeur/commande_search" method="post">
+    <div class="form-group">
+        <label for="date_retrait_commande">Date</label> :
+        <input type="date" class="form-group"  id="date_retrait_commande" name="date_retrait_commande" required>
+    </div>
+
+    <input type="submit" class="btn btn-success" value="Valider">
+</form>
+
+</body>
+
+</html>

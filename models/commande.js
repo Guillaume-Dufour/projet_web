@@ -74,11 +74,43 @@ class Commande {
         })
     }
 
-    static addContenuCommande(data) {
+    static getCommandeOfDay(date_retrait_commande, cb) {
 
-        let requete = "INSERT INTO contenu_commande SET = ?";
+        let requete = "SELECT u.sexe_utilisateur, u.nom_utilisateur, u.prenom_utilisateur, c.id_commande, c.date_retrait_commande, sc.id_statut_commande, sc.libelle_statut_commande " +
+            "FROM commande c " +
+            "JOIN statut_commande sc ON sc.id_statut_commande=c.id_statut_commande " +
+            "JOIN utilisateur u ON u.id_utilisateur=c.id_utilisateur " +
+            "WHERE c.date_retrait_commande >= ? AND c.date_retrait_commande < adddate(?,1); ";
 
-        connexion.query(requete, data);
+        connexion.query(requete, [date_retrait_commande, date_retrait_commande], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+        })
+    }
+
+    static getAllStatutsCommande(cb) {
+
+        let requete = "SELECT * FROM statut_commande";
+
+        connexion.query(requete, [], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+        });
+    }
+
+    static updateStatutCommande(id_commande, id_statut_commande) {
+
+        let requete = "UPDATE commande SET id_statut_commande = ? WHERE id_commande = ?";
+
+        connexion.query(requete, [id_statut_commande, id_commande]);
     }
 
 }

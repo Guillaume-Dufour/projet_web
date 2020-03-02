@@ -4,6 +4,7 @@ var userRouter = require('./routes/users');
 var clientRouter = require('./routes/clientRouter');
 let produitRouter = require('./routes/produit')
 let vendeurRouter = require('./routes/vendeurRouter');
+let adminRouter = require('./routes/adminRouter');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
@@ -39,6 +40,7 @@ app.set('view engine', 'ejs');
 app.use('/users', userRouter);
 app.use('/users/client', clientRouter);
 app.use('/users/vendeur', vendeurRouter);
+app.use('/users/admin', adminRouter);
 app.use('/produits', produitRouter);
 
 
@@ -48,9 +50,6 @@ app.use('/produits', produitRouter);
 });*/
 
 app.get('/', function (req, res) {
-    let d = new Date();
-    let day = d.getDay();
-    console.log(day)
     res.render('accueil')
 })
 

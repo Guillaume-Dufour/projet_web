@@ -3,6 +3,7 @@ let Utilisateur = require('../models/utilisateur');
 let Client = require('../models/client');
 let Produit = require('../models/produit');
 let fs = require('fs');
+let moment = require('moment-fr');
 
 module.exports = {
     homepage: function (req, res) {
@@ -125,6 +126,34 @@ module.exports = {
     },
 
     produit_update_put: function (req, res) {
+
+    },
+
+    commande_search_get: function (req, res) {
+        res.render('users/vendeur/commande_search');
+    },
+
+    commande_search_post: function (req, res) {
+        let date_selectionnee = req.body.date_retrait_commande;
+        Commande.getCommandeOfDay(date_selectionnee, function (rows) {
+
+            for (var i = 0; i < rows.length; i++) {
+                if (rows[i].sexe_utilisateur === 1) {
+                    rows[i].titre = "M.";
+                } else {
+                    rows[i].titre = "Mme";
+                }
+
+                let date_temp = moment(rows[i].date_retrait_commande);
+                date_temp = date_temp.format('LLLL');
+                rows[i].date_retrait_commande = date_temp;
+            }
+
+            res.render('users/vendeur/commande_list_day', {commandes: rows});
+        })
+    },
+
+    commande_put: function (req, res) {
 
     }
 }

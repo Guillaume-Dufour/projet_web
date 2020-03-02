@@ -19,4 +19,9 @@ router.route('/produit_create')
     .get(vendeurCtrl.produit_create_get)
     .post(vendeurCtrl.produit_create_post)
 
+router.route('/commande_search')
+    .get(vendeurCtrl.commande_search_get)
+    .post(vendeurCtrl.commande_search_post)
+    .put(vendeurCtrl.commande_put)
+
 module.exports = router;

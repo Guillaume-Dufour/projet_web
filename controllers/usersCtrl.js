@@ -79,7 +79,6 @@ module.exports = {
     },
 
     login_get: function (req, res) {
-        console.log("TOken = "+token.getToken(req));
         res.render('login', {error: undefined, mail: undefined});
     },
 
@@ -113,6 +112,7 @@ module.exports = {
 
         if (req.cookies['secretToken'] !== undefined) {
             var token_decoded = jwt.verify(token.getToken(req), token.key());
+            console.log(token_decoded)
 
             switch (token_decoded.type_utilisateur) {
                 case 1:
@@ -124,6 +124,8 @@ module.exports = {
                 case 3:
                     res.redirect('/users/client/homepage');
                     break;
+                default:
+                    res.redirect('/users/login');
             }
         }
         else {
