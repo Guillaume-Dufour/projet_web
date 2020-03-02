@@ -22,6 +22,7 @@
             <th scope="col">Nom</th>
             <th scope="col">Mail</th>
             <th scope="col">Télephone</th>
+            <th scope="col">Commandes</th>
         </tr>
         </thead>
         <tbody id="list_clients">
@@ -30,6 +31,7 @@
                 <td><%= clients[i].titre+" "+clients[i].nom_utilisateur+" "+clients[i].prenom_utilisateur %></td>
                 <td><%= clients[i].mail_utilisateur %></td>
                 <td><%= clients[i].telephone_utilisateur %></td>
+                <td><a href="#" class="btn btn-primary">Voir les commandes</a></td>
             </tr>
         <% } %>
         </tbody>
@@ -38,7 +40,7 @@
 
 <script>
     $(document).ready(function(){
-        $("#search_box").on("keyup", function() {
+        $("#client_search").on("keyup", function() {
             var value = $(this).val().toLowerCase();
             $("#list_clients tr").filter(function() {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)

@@ -22,6 +22,12 @@ module.exports = {
         console.log("Token décodé : "+token_decoded)
 
         Commande.allCommandesOfUser(token_decoded.id_utilisateur, function (rows) {
+
+            for (let i = 0; i < rows.length; i++) {
+
+            }
+
+
             res.render('users/client/commandes_list', {commandes : rows});
         });
     },

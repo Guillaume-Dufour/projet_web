@@ -49,14 +49,8 @@ app.use('/produits', produitRouter);
 
 app.get('/', function (req, res) {
     let d = new Date();
-    let day = d.getDate();
-    let month = d.getMonth()+1;
-    let year = d.getFullYear();
-    let hour = d.getHours();
-    let minutes = d.getMinutes();
-    let secondes = d.getSeconds();
-    let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+day : day)+' '+(hour < 10 ? "0"+hour : hour)+':'+(minutes < 10 ? "0"+minutes : minutes)+':'+(secondes < 10 ? "0"+secondes : secondes);
-    console.log(full_date)
+    let day = d.getDay();
+    console.log(day)
     res.render('accueil')
 })
 

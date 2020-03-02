@@ -32,7 +32,6 @@ class Commande {
                 throw err;
             }
             else {
-                console.log(rows)
                 cb(rows)
             }
         });
