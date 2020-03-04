@@ -25,9 +25,21 @@ class Client {
         connexion.query(requete, [id_utilisateur, id_produit]);
     }
 
+    static deleteProduitFavori(id_utilisateur, id_produit) {
+
+        let requete = "DELETE FROM produit_favori WHERE id_utilisateur = ? AND id_produit = ?";
+
+        connexion.query(requete, [id_utilisateur, id_produit], function (err) {
+            if (err) {
+                console.log(err)
+                throw err;
+            }
+        })
+    }
+
     static all(cb) {
 
-        let requete = "SELECT * FROM utilisateur WHERE type_utilisateur = 3";
+        let requete = "SELECT * FROM utilisateur WHERE type_utilisateur = 3 AND est_actif = 1";
 
         connexion.query(requete, [], function (err, rows) {
             if (err) {

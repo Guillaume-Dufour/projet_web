@@ -10,17 +10,18 @@
 
 <body>
 
-<div class="">
-    <form action="/" method="post" enctype="multipart/form-data">
-        <input type="file" name="guillaume" multiple>
-        <input type="submit" value="Upload">
-    </form>
-</div>
-</div>
+<input type="text" id="test" value="Non">
 
 
 
 
 </body>
-
+<script>
+    $(document).ready(function () {
+        $('#test').click(function () {
+            var b = document.getElementById("test");
+            b.className = "btn btn-danger"
+        })
+    })
+</script>
 </html>

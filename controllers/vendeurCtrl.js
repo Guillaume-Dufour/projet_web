@@ -34,101 +34,6 @@ module.exports = {
         })
     },
 
-    produit_create_get: function (req, res) {
-        Produit.getAllTypesProduits(function (rows) {
-            res.render('users/vendeur/produit_create', {types: rows, data: undefined});
-        })
-    },
-
-    produit_create_post: function (req, res) {
-
-        var errors = [];
-
-        var data = {
-            libelle_produit: req.sanitize(req.body.libelle_produit),
-            id_type_produit: req.sanitize(req.body.id_type_produit),
-            prix_produit: req.sanitize(req.body.prix_produit),
-            poids_produit: req.sanitize(req.body.poids_produit),
-            provenance_produit: req.sanitize(req.body.provenance_produit),
-            est_bio: (req.sanitize(req.body.est_bio) === undefined ? 0 : 1),
-            est_dispo: 0,
-            gencod_produit: req.sanitize(req.body.gencod_produit)
-        }
-
-        if (data.libelle_produit.length > 100) {
-            errors.push("Le nom du produit est trop long");
-            delete data.libelle_produit;
-        }
-
-        if (data.id_type_produit === undefined) {
-            errors.push("Aucun type de produit saisi")
-        }
-
-        if (data.prix_produit < 0) {
-            errors.push("Le prix n'est pas valide");
-            delete data.prix_produit;
-        }
-
-        if (data.poids_produit < 0) {
-            errors.push("Le poids n'est pas valide");
-            delete data.poids_produit;
-        }
-
-        if (data.gencod_produit.length > 20) {
-            errors.push("Le GENCOD est trop long");
-            delete data.gencod_produit;
-        }
-
-        if (req.files.photo_produit === undefined) {
-            errors.push("Aucune photo choisie");
-        }
-
-        console.log(errors);
-
-        if (errors.length > 0) {
-            Produit.getAllTypesProduits(function (rows) {
-                res.render('users/vendeur/produit_create', {data: data, types: rows});
-            })
-        }
-        else {
-            fs.stat('public/images/produits/'+data.gencod_produit+'.jpg', function (err) {
-                if (!err) {
-                    let alphabet = "azertyuiopqsdfghjklmwxcvbn";
-                    var chaine = "";
-
-                    for (var i = 0; i < 3; i++) {
-                        chaine += alphabet[Math.round(Math.random()*(alphabet.length-1))];
-                    }
-                    let fichier = req.files.photo_produit;
-                    fichier.mv('public/images/produits/'+data.gencod_produit+chaine+'.jpg', function (err) {
-                        if (err) throw err;
-                    });
-
-                    data.photo_produit = data.gencod_produit+chaine+'.jpg';
-                }
-                else {
-                    let fichier = req.files.photo_produit;
-                    fichier.mv('public/images/produits/'+data.gencod_produit+'.jpg', function (err) {
-                        if (err) throw err;
-                    });
-                    data.photo_produit = data.gencod_produit+'.jpg';
-                }
-
-                console.log(data)
-                Produit.create(data);
-                res.redirect('/users/homepage');
-            })
-        }
-    },
-
-    produit_update_get: function (req, res) {
-
-    },
-
-    produit_update_put: function (req, res) {
-
-    },
-
     commande_search_get: function (req, res) {
         res.render('users/vendeur/commande_search');
     },
@@ -155,5 +60,22 @@ module.exports = {
 
     commande_put: function (req, res) {
 
+    },
+
+    produit_manage_get: function(req, res) {
+        Produit.all(function (rows) {
+
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].type = rows[i].libelle_type_produit+(rows[i].libelle_sous_type_produit !== null ? " - "+rows[i].libelle_sous_type_produit : "");
+            }
+
+            res.render('users/vendeur/produit_manage', {produits: rows})
+
+        })
+    },
+
+    produit_manage_put: function(req, res) {
+
     }
+
 }

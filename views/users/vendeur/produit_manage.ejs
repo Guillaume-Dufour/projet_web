@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Modification produit</title>
+    <%- include('../../general/navigation'); %>
+</head>
+
+
+<body>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Nom</th>
+        <th scope="col">Type</th>
+        <th scope="col">Prix</th>
+        <th scope="col">Poids</th>
+        <th scope="col">Bio</th>
+        <th scope="col">Disponible</th>
+        <th scope="col"></th>
+
+    </tr>
+    </thead>
+    <tbody id="list_produits">
+    <% for (var i = 0; i < produits.length; i++) { %>
+        <tr>
+            <td><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
+            <td><%= produits[i].libelle_produit %></td>
+            <td><%= produits[i].type %></td>
+            <td id="lebron<%= i %>"><%= produits[i].prix_produit %> € / kg</td>
+            <td><% if (produits[i].poids_produit < 1) { %>
+                    <%= produits[i].poids_produit*1000 %> g
+                <% }
+                else { %>
+                    <%= produits[i].poids_produit %> kg
+                <% } %></td>
+            <td><%= (produits[i].est_bio === 1 ? "Oui" : "Non") %></td>
+            <td><% if (produits[i].est_dispo === 1) { %>
+                    <button type="button" id="button_update_est_dispo<%= i %>" class="btn btn-success" value="1">Oui</button>
+            <% }
+            else { %>
+                    <button type="button" id="button_update_est_dispo<%= i %>" class="btn btn-danger" value="0">Non</button>
+            <% } %></td>
+            <td><a href="/users/vendeur/produit_update/<%= produits[i].id_produit %>" class="btn btn-secondary">Modifier</a></td>
+        </tr>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#button_update_est_dispo<%= i %>').click(function () {
+                    $.ajax({
+                        url: '/produits/update_dispo',
+                        type: 'PUT',
+                        data: {id_produit: <%= produits[i].id_produit %>, value: this.value},
+                        dataType: 'html',
+                        success: function (data) {
+                            var button_dispo = document.getElementById('button_update_est_dispo<%= i %>');
+
+                            if (button_dispo.innerText === "Oui") {
+                                button_dispo.innerText = "Non";
+                                button_dispo.className = "btn btn-danger"
+                                button_dispo.value = '0'
+                            }
+                            else {
+                                button_dispo.innerText = "Oui";
+                                button_dispo.className = "btn btn-success";
+                                button_dispo.value = '1'
+                            }
+                        },
+                        error: function () {
+                            console.log("Erreur");
+                        }
+                    })
+                });
+            });
+        </script>
+
+    <% } %>
+    </tbody>
+</table>
+
+</body>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
+</html>
+
+</html>

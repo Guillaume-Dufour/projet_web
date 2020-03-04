@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Liste des utilisateurs</title>
+    <%- include('../../general/navigation'); %>
+</head>
+
+
+<body>
+
+<form class="form-inline my-2 my-lg-0">
+    <input class="form-control mr-sm-2" id="client_search" type="search" placeholder="Rechercher" aria-label="Search">
+    <button class="btn btn-dark my-2 my-sm-0" type="submit">Rechercher</button>
+</form>
+
+<div class="container">
+    <table class="table">
+        <thead class="thead-dark">
+        <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Mail</th>
+            <th scope="col">Télephone</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+
+        <tbody id="list_utilisateurs">
+        <% for (var i = 0; i < utilisateurs.length; i++) { %>
+            <tr id="ligne_<%= i %>">
+                <td><%= utilisateurs[i].titre+" "+utilisateurs[i].nom_utilisateur+" "+utilisateurs[i].prenom_utilisateur %></td>
+                <td><%= utilisateurs[i].mail_utilisateur %></td>
+                <td><%= utilisateurs[i].telephone_utilisateur %></td>
+                <td><button type="button" id="button_delete_infos_<%= i %>" class="btn btn-danger">Supprimer les infos</button></td>
+            </tr>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#button_delete_infos_<%= i %>').click(function () {
+                        $.ajax({
+                            url: '/users/admin/list_users',
+                            type: 'PUT',
+                            data: {id_utilisateur: <%= utilisateurs[i].id_utilisateur %>},
+                            dataType: 'html',
+                            success: function () {
+                                $(document.getElementById('ligne_<%= i %>')).toggle('fast');
+                            },
+                            error: function () {
+                                console.log("Erreur");
+                            }
+                        })
+                    });
+                });
+            </script>
+        <% } %>
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready(function(){
+        $("#client_search").on("keyup", function() {
+            var value = $(this).val().toLowerCase();
+            $("#list_utilisateurs tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+</body>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
+
+</html>

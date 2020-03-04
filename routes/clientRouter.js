@@ -34,5 +34,6 @@ router.route('/add_produit_favori')
 
 router.route('/produits_favoris')
     .get(clientCtrl.produits_favoris)
+    .delete(clientCtrl.delete_produit_favori)
 
 module.exports = router;

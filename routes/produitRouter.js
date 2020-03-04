@@ -13,4 +13,11 @@ router.route('/liste')
 router.route('/details/:id_produit')
     .get(produitCtrl.details)
 
+router.route('/update_dispo')
+    .put(produitCtrl.produit_update_dispo)
+
+router.route('/update/:id')
+    .get(produitCtrl.update_get)
+    .put(produitCtrl.update_put)
+
 module.exports = router;

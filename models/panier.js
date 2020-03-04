@@ -38,6 +38,23 @@ class Panier {
         })
     }
 
+    static getPrix(id_utilisateur, cb) {
+
+        let requete = "SELECT ROUND(SUM(pr.prix_produit * pa.quantite * pr.poids_produit),2) as prix_total " +
+            "FROM produit pr " +
+            "JOIN panier pa ON pa.id_produit=pr.id_produit " +
+            "WHERE pa.id_utilisateur = ?";
+
+        connexion.query(requete, [id_utilisateur], function (err, result) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(result[0].prix_total)
+            }
+        })
+    }
+
     static empty(id_utilsateur) {
 
         let requete = "DELETE FROM panier WHERE id_utilisateur = ?";

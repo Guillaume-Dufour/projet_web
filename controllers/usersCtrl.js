@@ -15,8 +15,8 @@ module.exports = {
         const REGEX_MAIL = /(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
         var data = {
-            nom_utilisateur: req.sanitize(req.body.nom),
-            prenom_utilisateur: req.sanitize(req.body.prenom),
+            nom_utilisateur: req.sanitize(req.body.nom.toUpperCase()),
+            prenom_utilisateur: req.sanitize(req.body.prenom.charAt(0).toUpperCase()+req.body.prenom.slice(1)),
             mail_utilisateur: req.sanitize(req.body.mail),
             sexe_utilisateur: req.sanitize(req.body.sexe),
             type_utilisateur: 3,
@@ -84,9 +84,11 @@ module.exports = {
 
     login_post: function (req, res) {
         Utilisateur.canConnect(req.body.mail, req.body.password, function (code_retour, user) {
-            console.log("code retour : "+code_retour);
 
             switch (code_retour) {
+                case -3:
+                    res.render('login', {error: "Le compte n'est pas actif", mail: undefined});
+                    break;
                 case -2:
                     res.render('login', {error: "Vous n'avez pas renseigné tous les champs requis", mail: undefined});
                     break;
@@ -102,7 +104,7 @@ module.exports = {
                     res.redirect('/users/homepage');
                     break;
                 default:
-                    res.redirect('/');
+                    res.redirect('/users/login');
             }
         });
 

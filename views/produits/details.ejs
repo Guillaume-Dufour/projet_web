@@ -12,10 +12,10 @@
 
 <div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
     <div class="text-center">
-        <img src="/public/images/produits/<%= produit[0].photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
+        <img src="/public/images/produits/<%= produit.photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
     </div>
     <div class="text-center">
-        <%= produit[0].libelle_produit %>
+        <%= produit.libelle_produit %>
     </div>
 
     <% if (locals.estConnecte === 1) { %>
@@ -27,14 +27,25 @@
             <div class="form-group text-center">
                 <input type="submit" class="btn btn-warning" value="Ajouter au panier">
             </div>
-            <input type="hidden" id="id_produit" name="id_produit" value="<%= produit[0].id_produit %>">
+            <input type="hidden" id="id_produit" name="id_produit" value="<%= produit.id_produit %>">
         </form>
 
         <form action="/users/client/add_produit_favori" method="post">
             <div class="form-group text-center">
                 <input type="submit" class="btn btn-primary" name="produit_favori" value="Ajouter aux produits favoris">
             </div>
-            <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit[0].id_produit %>">
+            <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit.id_produit %>">
+        </form>
+
+        <form action="/users/client/avis" method="post">
+            <div class="form-group text-center">
+                <label for="avis">Avis</label> :
+                <textarea name="avis" id="avis"></textarea>
+            </div>
+            <div class="form-group text-center">
+                <input type="submit" class="btn btn-success" name="bouton_avis" value="Poster votre avis">
+            </div>
+            <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit.id_produit %>">
         </form>
     <% }
     else { %>

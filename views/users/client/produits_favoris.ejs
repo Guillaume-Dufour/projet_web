@@ -18,12 +18,13 @@
         <th scope="col">Prix</th>
         <th scope="col">Poids</th>
         <th scope="col">Bio</th>
+        <th scope="col"></th>
 
     </tr>
     </thead>
     <tbody>
     <% for (var i = 0; i < produits.length; i++) { %>
-        <tr>
+        <tr id="ligne_<%= i %>">
             <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
             <th><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
             <td><%= produits[i].provenance_produit %></td>
@@ -40,12 +41,40 @@
                 else { %>
                     Oui
                 <% } %></td>
+            <td><button id="button_delete<%= i %>" class="btn btn-warning">Supprimer</button></td>
         </tr>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#button_delete<%= i %>').click(function () {
+                    $.ajax({
+                        url: '/users/client/produits_favoris',
+                        type: 'DELETE',
+                        data: {id_produit: <%= produits[i].id_produit %>},
+                        dataType: 'html',
+                        success: function () {
+                            console.log("Ca marche")
+                            $(document.getElementById('ligne_<%= i %>')).toggle('fast');
+
+                        },
+                        error: function () {
+                            console.log("Erreur");
+                        }
+                    })
+                });
+            });
+        </script>
     <% } %>
     </tbody>
 </table>
 
 
 </body>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
 
 </html>

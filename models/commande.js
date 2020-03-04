@@ -39,7 +39,7 @@ class Commande {
 
     static getCommandeById(id, cb) {
 
-        let requete = "SELECT p.libelle_produit, c2.quantite_produit, p.photo_produit, p.prix_produit, p.type_vente_produit " +
+        let requete = "SELECT p.libelle_produit, c2.quantite_produit, p.photo_produit, p.prix_produit " +
             "FROM commande c1 " +
             "JOIN contenu_commande c2 ON c2.id_commande=c1.id_commande " +
             "JOIN produit p ON p.id_produit=c2.id_produit " +

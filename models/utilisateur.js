@@ -56,12 +56,14 @@ class Utilisateur {
         })
     }
 
-    static all() {
-        connexion.query("SELECT * FROM utilisateur", function (err, result) {
-            if (err) throw err;
-
-            console.log(result);
-
+    static all(cb) {
+        connexion.query("SELECT * FROM utilisateur WHERE type_utilisateur != 1 AND est_actif = 1", function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows)
+            }
         })
     }
 
@@ -77,14 +79,22 @@ class Utilisateur {
                 cb(-1);
             }
             else {
-                let password_ok = bcrypt.compareSync(password, result.password_utilisateur);
 
-                if (password_ok) {
-                    cb(1, result);
+                if (result.est_actif === 0) {
+                    cb(-3);
                 }
                 else {
-                    cb(0);
+                    let password_ok = bcrypt.compareSync(password, result.password_utilisateur);
+
+                    if (password_ok) {
+                        cb(1, result);
+                    }
+                    else {
+                        cb(0);
+                    }
                 }
+
+
             }
 
         })
@@ -92,24 +102,13 @@ class Utilisateur {
 
     }
 
-    /*static exist(mail) {
-        var promess = new Promise(function (resolve, reject) {
-            connexion.query("SELECT * FROM utilisateur WHERE mail_utilisateur = ?", [mail], function (err, result) {
-                if (err)
-                    throw err;
+    static deleteInfos(id_utilisateur) {
 
-                if (result[0] === undefined) {
-                    resolve(result);
-                }
-                else {
-                    resolve(result);
-                }
-            })
+        let requete = "UPDATE utilisateur SET nom_utilisateur='Anonyme', prenom_utilisateur='', mail_utilisateur='', sexe_utilisateur=0, password_utilisateur='', telephone_utilisateur='', est_actif=0 WHERE id_utilisateur = ?";
 
-        });
+        connexion.query(requete, [id_utilisateur]);
 
-        return promess;
-    }*/
+    }
 
 }
 

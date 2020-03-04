@@ -1,8 +1,8 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var userRouter = require('./routes/users');
+var userRouter = require('./routes/userRouter');
 var clientRouter = require('./routes/clientRouter');
-let produitRouter = require('./routes/produit')
+let produitRouter = require('./routes/produitRouter')
 let vendeurRouter = require('./routes/vendeurRouter');
 let adminRouter = require('./routes/adminRouter');
 let expressSanitizer = require('express-sanitizer');
@@ -65,15 +65,7 @@ app.post('/', function (req, res) {
 })
 
 app.get('/guillaume', function (req, res) {
-    require('fs').stat('public/images/bvdf.jpg', function (err) {
-        if (!err) {
-            console.log("Fichier existe")
-        }
-        else if (err.code === 'ENOENT') {
-            console.log("Fichier n'existe pas")
-        }
-        res.redirect('/');
-    })
+    let a="";
 })
 
 app.get('*', function (req, res) {

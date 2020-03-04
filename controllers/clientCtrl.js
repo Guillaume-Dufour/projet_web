@@ -4,6 +4,7 @@ let Commande = require('../models/commande');
 let Panier = require('../models/panier');
 let Client = require('../models/client');
 let Utilisateur = require('../models/utilisateur');
+let moment = require('moment-fr');
 
 module.exports = {
     homepage: function (req, res) {
@@ -19,14 +20,18 @@ module.exports = {
 
     commandes_list: function (req, res) {
         var token_decoded = jwt.verify(Token.getToken(req), Token.key());
-        console.log("Token décodé : "+token_decoded)
 
         Commande.allCommandesOfUser(token_decoded.id_utilisateur, function (rows) {
 
             for (let i = 0; i < rows.length; i++) {
+                let date_temp = moment(rows[i].date_retrait_commande);
+                date_temp = date_temp.format('LLLL');
+                rows[i].date_retrait_commande = date_temp;
 
+                date_temp=moment(rows[i].date_commande);
+                date_temp = date_temp.format('LLLL');
+                rows[i].date_commande = date_temp;
             }
-
 
             res.render('users/client/commandes_list', {commandes : rows});
         });
@@ -46,7 +51,9 @@ module.exports = {
     panier: function (req, res) {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Panier.getProduits(token_decoded.id_utilisateur, function (rows) {
-            res.render('users/client/panier', {panier: rows});
+            Panier.getPrix(token_decoded.id_utilisateur, function (prix) {
+                res.render('users/client/panier', {panier: rows, prix_total: prix});
+            })
         });
 
     },
@@ -55,7 +62,6 @@ module.exports = {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
 
         if (req.body.quantite < 0) {
-            console.log(req.params)
             res.redirect('/');
         }
         else {
@@ -67,9 +73,11 @@ module.exports = {
 
     delete_panier: async function (req, res) {
         let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
-        console.log(req.body.id_produit);
         await Panier.deleteProduit(token_decoded.id_utilisateur,req.body.id_produit)
-        res.end();
+        Panier.getPrix(token_decoded.id_utilisateur, function (prix_total) {
+            res.write(""+prix_total)
+            res.end();
+        })
     },
 
     produits_favoris: function (req, res) {
@@ -111,6 +119,12 @@ module.exports = {
         });
 
         res.redirect('/users/homepage');
+    },
+
+    delete_produit_favori: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Client.deleteProduitFavori(token_decoded.id_utilisateur,req.body.id_produit)
+        res.end();
     }
 
 

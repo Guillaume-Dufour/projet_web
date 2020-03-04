@@ -10,8 +10,19 @@ class Produit {
         })
     }
 
-    static getIdTypeProduit(libelle, sous_libelle) {
+    static all(cb) {
 
+        let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit ORDER BY p.libelle_produit";
+
+        connexion.query(requete, [],  function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+
+        })
     }
 
     static getAllTypesProduits(cb) {
@@ -47,14 +58,40 @@ class Produit {
 
         let requete = "SELECT * FROM produit p JOIN type_produit t ON t.id_type_produit=p.id_type_produit WHERE p.id_produit = ?";
 
-        connexion.query(requete, [id_produit], function (err, rows) {
+        connexion.query(requete, [id_produit], function (err, row) {
             if (err) {
                 throw err;
             }
             else {
-                cb(rows);
+                cb(row[0]);
             }
         });
+    }
+
+    static updateDispo(id_produit, value) {
+
+        let requete = "UPDATE produit SET est_dispo = ? WHERE id_produit = ?";
+
+        connexion.query(requete, [value, id_produit]);
+    }
+
+    static update(id_produit, data) {
+
+        let requete = "UPDATE produit " +
+            "SET libelle_produit = ?, " +
+            "id_type_produit = ?, " +
+            "prix_produit = ?, " +
+            "poids_produit = ?, " +
+            "provenance_produit = ?, " +
+            "est_bio = ?, " +
+            "gencod_produit = ? " +
+            "WHERE id_produit = ?";
+
+        connexion.query(requete, [data.libelle_produit, data.id_type_produit, data.prix_produit, data.poids_produit, data.provenance_produit, data.est_bio, data.gencod_produit, id_produit], function (err) {
+            if (err) {
+                throw err;
+            }
+        })
     }
 }
 
