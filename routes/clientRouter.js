@@ -1,11 +1,12 @@
 let express = require('express');
 let router = express.Router();
 let clientCtrl = require('../controllers/clientCtrl');
+let userCtrl = require('../controllers/userCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
 let jwt = require('jsonwebtoken');
 
 
-router.use(usersMdlw.is_connected);
+router.use(usersMdlw.is_connected_for_navbar);
 router.use(usersMdlw.is_client);
 
 
@@ -14,6 +15,7 @@ router.route('/homepage')
 
 router.route('/profil')
     .get(clientCtrl.profil)
+    .put(userCtrl.delete_profil)
 
 router.route('/commandes')
     .get(clientCtrl.commandes_list)

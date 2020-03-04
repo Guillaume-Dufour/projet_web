@@ -6,7 +6,7 @@ let usersMdlw = require('../middlewares/usersMdlw');
 let jwt = require('jsonwebtoken');
 
 
-router.use(usersMdlw.is_connected);
+router.use(usersMdlw.is_connected_for_navbar);
 router.use(usersMdlw.is_vendeur);
 
 router.route('/homepage')

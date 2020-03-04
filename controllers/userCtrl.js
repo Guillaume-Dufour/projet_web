@@ -1,7 +1,7 @@
 let Utilisateur = require('../models/utilisateur');
 let bcrypt = require('bcrypt');
 let jwt = require('jsonwebtoken');
-let token = require('../models/token');
+let Token = require('../models/token');
 
 module.exports = {
     inscription_get: function (req, res) {
@@ -99,8 +99,8 @@ module.exports = {
                     res.render('login', {error: "Le mot de passe est incorrect", mail: req.body.mail});
                     break;
                 case 1:
-                    var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, token.key(), {expiresIn: '2h'});
-                    token.setToken(jwt_token, res);
+                    var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, Token.key(), {expiresIn: '2h'});
+                    Token.setToken(jwt_token, res);
                     res.redirect('/users/homepage');
                     break;
                 default:
@@ -113,7 +113,7 @@ module.exports = {
     homepage: function (req, res) {
 
         if (req.cookies['secretToken'] !== undefined) {
-            var token_decoded = jwt.verify(token.getToken(req), token.key());
+            var token_decoded = jwt.verify(Token.getToken(req), Token.key());
             console.log(token_decoded)
 
             switch (token_decoded.type_utilisateur) {
@@ -139,7 +139,7 @@ module.exports = {
     profil: function (req, res) {
 
         if (req.cookies['secretToken'] !== undefined) {
-            var token_decoded = jwt.verify(token.getToken(req), token.key());
+            var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
             console.log(token_decoded)
 
             switch (token_decoded.type_utilisateur) {
@@ -164,5 +164,12 @@ module.exports = {
     deconnect: function (req, res) {
         res.clearCookie('secretToken');
         res.redirect('/users/login');
+    },
+
+    delete_profil: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.deleteInfos(token_decoded.id_utilisateur);
+        res.clearCookie('secretToken');
+        res.redirect('/users/login')
     }
 }

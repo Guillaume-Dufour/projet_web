@@ -4,7 +4,7 @@ let produitCtrl = require('../controllers/produitCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
 let connection = require('../config/db');
 
-router.use(usersMdlw.is_connected);
+router.use(usersMdlw.is_connected_for_navbar);
 router.use(usersMdlw.type_user)
 
 router.route('/liste')

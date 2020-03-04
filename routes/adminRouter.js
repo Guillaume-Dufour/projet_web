@@ -4,7 +4,7 @@ let adminCtrl = require('../controllers/adminCtrl');
 let produitCtrl = require('../controllers/produitCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
 
-router.use(usersMdlw.is_connected)
+router.use(usersMdlw.is_connected_for_navbar)
 router.use(usersMdlw.is_admin)
 
 router.route('/homepage')

@@ -5,6 +5,7 @@ var clientRouter = require('./routes/clientRouter');
 let produitRouter = require('./routes/produitRouter')
 let vendeurRouter = require('./routes/vendeurRouter');
 let adminRouter = require('./routes/adminRouter');
+let userMdlw = require('./middlewares/usersMdlw');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
@@ -13,20 +14,42 @@ var util = require('./models/utilisateur');
 let Panier = require('./models/panier');
 let methodOverride = require('method-override');
 let fileUpload = require('express-fileupload');
+const { Storage } = require('@google-cloud/storage');
+const path = require('path');
+var multer = require("multer");
+var multerGoogleStorage = require('multer-google-storage');
 
 var app = express();
 
+var uploadHandler = multer({
+    storage: multerGoogleStorage.storageEngine({
+        keyFilename: "./gleaming-realm-270117-50b858c69f0e.json",
+        projectId: 'gleaming-realm-270117',
+        bucket: 'projet_web_charcuterie_dufour_guillaume'
+    })
+});
+
+app.get('/upload', function (req, res) {
+    res.render('testform')
+})
+
+app.post('/upload', uploadHandler.any(), function (req, res) {
+    console.log(req.files);
+    res.json(req.files);
+});
+
+
+
+
+const gc = new Storage({
+    keyFilename: path.join(__dirname, './gleaming-realm-270117-50b858c69f0e.json'),
+    projectId: 'gleaming-realm-270117'
+});
+
+const charcutBucket = gc.bucket('projet_web_charcuterie_dufour_guillaume');
+
 app.use('/public', express.static(__dirname + '/public'));
 app.use(express('views'));
-//app.use('/photo_produit', express.static(__dirname + '/public/images/produits'))
-
-/*const jsdom = require("jsdom");
-const { JSDOM } = jsdom;
-const { window } = new JSDOM();
-const { document } = (new JSDOM('')).window;
-global.document = document;
-const $ = jQuery = require('jquery')(window);
-global.$ = $;*/
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -44,33 +67,14 @@ app.use('/users/admin', adminRouter);
 app.use('/produits', produitRouter);
 
 
-/*app.get('/', function (req, res) {
-    let estConnecte = (req.cookies['secretToken'] ? 1 : 0);
-    res.render('accueil', {estConnecte: estConnecte});
-});*/
 
-app.get('/', function (req, res) {
+app.get('/', userMdlw.is_connected_for_navbar, function (req, res) {
     res.render('accueil')
 })
 
-app.post('/', function (req, res) {
-    let france = req.files.guillaume;
-    france.mv('public/images/france.jpg', function (err) {
-        if (err) {
-            console.log(err)
-        }
-
-    })
-    res.redirect('/');
-})
-
-app.get('/guillaume', function (req, res) {
-    let a="";
-})
-
-app.get('*', function (req, res) {
+/*app.get('*', function (req, res) {
     res.status(404);
     res.render('error')
-});
+});*/
 
 app.listen(8080);

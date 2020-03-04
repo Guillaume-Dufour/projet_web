@@ -2,6 +2,7 @@ let Produit = require('../models/produit');
 let Commande = require('../models/commande');
 let Token = require('../models/token');
 let jwt = require('jsonwebtoken');
+let fs = require('fs');
 
 module.exports = {
     liste: function (req, res) {

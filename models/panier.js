@@ -40,7 +40,7 @@ class Panier {
 
     static getPrix(id_utilisateur, cb) {
 
-        let requete = "SELECT ROUND(SUM(pr.prix_produit * pa.quantite * pr.poids_produit),2) as prix_total " +
+        let requete = "SELECT ROUND(ifnull(SUM(pr.prix_produit * pa.quantite * pr.poids_produit),0),2) as prix_total " +
             "FROM produit pr " +
             "JOIN panier pa ON pa.id_produit=pr.id_produit " +
             "WHERE pa.id_utilisateur = ?";

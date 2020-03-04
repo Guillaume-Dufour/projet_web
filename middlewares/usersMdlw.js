@@ -3,15 +3,24 @@ let Token = require('../models/token');
 
 module.exports = {
 
-    is_connected: function (req, res, next) {
+    is_connected_for_navbar: function (req, res, next) {
         if (req.cookies['secretToken'] !== undefined) {
             res.locals.estConnecte=1;
         }
         else {
-            res.locals.estConnecte=0
+            res.locals.estConnecte=0;
         }
 
         next();
+    },
+
+    is_connected: function(req, res, next) {
+      if (req.cookies['secretToken'] !== undefined) {
+          res.redirect('/users/homepage')
+      }
+      else {
+          next();
+      }
     },
 
     is_admin: function (req, res, next) {
