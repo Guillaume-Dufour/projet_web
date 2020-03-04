@@ -12,10 +12,12 @@ module.exports = {
     },
 
     profil: function (req, res) {
+
         let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
-        Utilisateur.getUserById(token_decoded.id_utilisateur, function (rows) {
-            res.render('users/client/profil', {infos: rows});
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (row) {
+            res.render('users/profil', {user: row});
         })
+
     },
 
     commandes_list: function (req, res) {

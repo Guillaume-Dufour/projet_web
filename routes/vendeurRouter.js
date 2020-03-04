@@ -12,6 +12,9 @@ router.use(usersMdlw.is_vendeur);
 router.route('/homepage')
     .get(vendeurCtrl.homepage)
 
+router.route('/profil')
+    .get(vendeurCtrl.profil)
+
 router.route('/infos_clients')
     .get(vendeurCtrl.clients_list)
 
@@ -30,5 +33,11 @@ router.route('/commande_search')
     .get(vendeurCtrl.commande_search_get)
     .post(vendeurCtrl.commande_search_post)
     .put(vendeurCtrl.commande_put)
+
+router.route('/commandes_search/:id_commande')
+    .get(vendeurCtrl.commande_details)
+
+router.route('/commandes_client/:id')
+    .get(vendeurCtrl.commandes_list)
 
 module.exports = router;

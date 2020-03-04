@@ -102,6 +102,11 @@ class Utilisateur {
 
     }
 
+    static update(id_utilisateur, data) {
+
+        let requete = "UPDATE utilisateur SET ";
+    }
+
     static deleteInfos(id_utilisateur) {
 
         let requete = "UPDATE utilisateur SET nom_utilisateur='Anonyme', prenom_utilisateur='', mail_utilisateur='', sexe_utilisateur=0, password_utilisateur='', telephone_utilisateur='', est_actif=0 WHERE id_utilisateur = ?";

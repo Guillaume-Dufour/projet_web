@@ -25,7 +25,7 @@ class Commande {
 
     static allCommandesOfUser(id, cb) {
 
-        let requete =   "SELECT * FROM commande c JOIN statut_commande s ON s.id_statut_commande=c.id_statut_commande WHERE c.id_utilisateur = ?";
+        let requete =   "SELECT * FROM commande c JOIN statut_commande s ON s.id_statut_commande=c.id_statut_commande WHERE c.id_utilisateur = ? ORDER BY c.date_retrait_commande DESC";
         
         connexion.query(requete, [id], function (err, rows) {
             if (err) {
@@ -79,7 +79,7 @@ class Commande {
         let requete = "SELECT u.sexe_utilisateur, u.nom_utilisateur, u.prenom_utilisateur, c.id_commande, c.date_retrait_commande, sc.id_statut_commande, sc.libelle_statut_commande " +
             "FROM commande c " +
             "JOIN statut_commande sc ON sc.id_statut_commande=c.id_statut_commande " +
-            "JOIN utilisateur u ON u.id_utilisateur=c.id_utilisateur " +
+            "JOIN utilisateur u ON u.id_utilisateur=c.id_utilisateur AND u.est_actif = 1 " +
             "WHERE c.date_retrait_commande >= ? AND c.date_retrait_commande < adddate(?,1); ";
 
         connexion.query(requete, [date_retrait_commande, date_retrait_commande], function (err, rows) {

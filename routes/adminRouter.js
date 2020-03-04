@@ -10,6 +10,9 @@ router.use(usersMdlw.is_admin)
 router.route('/homepage')
     .get(adminCtrl.homepage)
 
+router.route('/profil')
+    .get(adminCtrl.profil)
+
 router.route('/produit_create')
     .get(produitCtrl.produit_create_get)
     .post(produitCtrl.produit_create_post)

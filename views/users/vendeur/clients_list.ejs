@@ -31,7 +31,7 @@
                 <td><%= clients[i].titre+" "+clients[i].nom_utilisateur+" "+clients[i].prenom_utilisateur %></td>
                 <td><%= clients[i].mail_utilisateur %></td>
                 <td><%= clients[i].telephone_utilisateur %></td>
-                <td><a href="#" class="btn btn-primary">Voir les commandes</a></td>
+                <td><a href="/users/vendeur/commandes_client/<%= clients[i].id_utilisateur %>" class="btn btn-primary">Voir les commandes</a></td>
             </tr>
         <% } %>
         </tbody>

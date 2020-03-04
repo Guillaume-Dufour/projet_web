@@ -1,9 +1,20 @@
 let Utilisateur = require('../models/utilisateur');
 let bcrypt = require('bcrypt');
+let jwt = require('jsonwebtoken');
+let Token = require('../models/token');
 
 module.exports = {
     homepage: function (req, res) {
         res.render('users/admin/homepage');
+    },
+
+    profil: function (req, res) {
+
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (row) {
+            res.render('users/profil', {user: row});
+        })
+
     },
 
     delete_infos_user: function (req, res) {

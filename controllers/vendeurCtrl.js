@@ -2,6 +2,8 @@ let Commande = require('../models/commande');
 let Utilisateur = require('../models/utilisateur');
 let Client = require('../models/client');
 let Produit = require('../models/produit');
+let Token = require('../models/token');
+let jwt = require('jsonwebtoken')
 let fs = require('fs');
 let moment = require('moment-fr');
 
@@ -10,8 +12,41 @@ module.exports = {
         res.render('users/vendeur/homepage');
     },
 
-    commandes_list: function (req, res) {
+    profil: function (req, res) {
 
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (row) {
+            res.render('users/profil', {user: row});
+        })
+
+    },
+
+    commande_details: function (req, res) {
+        Commande.getCommandeById(req.params.id_commande, function (rows) {
+
+            for (let i = 0; i < rows.length; i++) {
+                rows[i].prix = rows[i].quantite_produit*rows[i].prix_produit;
+            }
+
+            res.render('users/vendeur/commande_details', {commande : rows});
+        })
+    },
+
+    commandes_list: function (req, res) {
+        Commande.allCommandesOfUser(req.params.id, function (rows) {
+
+            for (let i = 0; i < rows.length; i++) {
+                let date_temp = moment(rows[i].date_retrait_commande);
+                date_temp = date_temp.format('LLLL');
+                rows[i].date_retrait_commande = date_temp;
+
+                date_temp=moment(rows[i].date_commande);
+                date_temp = date_temp.format('LLLL');
+                rows[i].date_commande = date_temp;
+            }
+
+            res.render('users/vendeur/commandes_list', {commandes: rows});
+        })
     },
 
     clients_list: function (req, res) {
@@ -73,9 +108,5 @@ module.exports = {
 
         })
     },
-
-    produit_manage_put: function(req, res) {
-
-    }
 
 }

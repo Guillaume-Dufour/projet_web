@@ -14,6 +14,9 @@ router.route('/login')
 router.route('/homepage')
     .get(usersCtrl.homepage)
 
+router.route('/profil')
+    .get(usersCtrl.profil)
+
 router.route('/deconnect')
     .get(usersCtrl.deconnect)
 

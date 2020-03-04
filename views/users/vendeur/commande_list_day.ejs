@@ -29,7 +29,7 @@
                 <td><%= commandes[i].titre+" "+commandes[i].nom_utilisateur+" "+commandes[i].prenom_utilisateur %></td>
                 <td><%= commandes[i].date_retrait_commande %></td>
                 <td><%= commandes[i].libelle_statut_commande %></td>
-                <td><a href="#" class="btn btn-primary">Voir la commande</a></td>
+                <td><a href="/users/vendeur/commandes_search/<%= commandes[i].id_commande %>" class="btn btn-primary">Voir la commande</a></td>
                 <td><button id="button_update<%= i %>" class="btn btn-warning">Mettre à jour</button></td>
 
             </tr>

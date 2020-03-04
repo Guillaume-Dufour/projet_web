@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+    <title>Mon profil</title>
+    <%- include('../general/navigation'); %>
+</head>
+
+
+<body>
+
+<%= user.nom_utilisateur+" "+user.prenom_utilisateur%>
+
+<a href="#" class="btn btn-primary">Modifier son profil</a>
+<a href="#" class="btn btn-danger">Supprimer ses infos</a>
+
+
+</body>
+</html>

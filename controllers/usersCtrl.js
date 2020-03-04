@@ -136,6 +136,31 @@ module.exports = {
 
     },
 
+    profil: function (req, res) {
+
+        if (req.cookies['secretToken'] !== undefined) {
+            var token_decoded = jwt.verify(token.getToken(req), token.key());
+            console.log(token_decoded)
+
+            switch (token_decoded.type_utilisateur) {
+                case 1:
+                    res.redirect('/users/admin/profil');
+                    break;
+                case 2:
+                    res.redirect('/users/vendeur/profil');
+                    break;
+                case 3:
+                    res.redirect('/users/client/profil');
+                    break;
+                default:
+                    res.redirect('/users/login');
+            }
+        }
+        else {
+            res.redirect('/users/login')
+        }
+    },
+
     deconnect: function (req, res) {
         res.clearCookie('secretToken');
         res.redirect('/users/login');
