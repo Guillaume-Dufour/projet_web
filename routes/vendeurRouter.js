@@ -15,6 +15,9 @@ router.route('/homepage')
 router.route('/profil')
     .get(vendeurCtrl.profil)
 
+router.route('/profil_modify')
+    .get(vendeurCtrl.profil_modify_get)
+
 router.route('/infos_clients')
     .get(vendeurCtrl.clients_list)
 
@@ -39,5 +42,8 @@ router.route('/commandes_search/:id_commande')
 
 router.route('/commandes_client/:id')
     .get(vendeurCtrl.commandes_list)
+
+router.route('/stats')
+    .get(vendeurCtrl.stats)
 
 module.exports = router;

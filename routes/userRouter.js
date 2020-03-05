@@ -20,6 +20,10 @@ router.route('/profil')
     .get(usersCtrl.profil)
     .put(usersCtrl.delete_profil)
 
+router.route('/profil_modify')
+    .get(usersCtrl.profil_modify_get)
+    .put(usersCtrl.profil_modify_put)
+
 router.route('/deconnect')
     .get(usersCtrl.deconnect)
 

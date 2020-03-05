@@ -21,11 +21,18 @@ module.exports = {
 
     },
 
+    profil_modify_get: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (row) {
+            res.render('users/profil_modify', {user: row});
+        })
+    },
+
     commande_details: function (req, res) {
         Commande.getCommandeById(req.params.id_commande, function (rows) {
 
             for (let i = 0; i < rows.length; i++) {
-                rows[i].prix = rows[i].quantite_produit*rows[i].prix_produit;
+                rows[i].prix = rows[i].quantite_produit*rows[i].prix_produit*rows[i].poids_produit;
             }
 
             res.render('users/vendeur/commande_details', {commande : rows});
@@ -89,12 +96,17 @@ module.exports = {
                 rows[i].date_retrait_commande = date_temp;
             }
 
-            res.render('users/vendeur/commande_list_day', {commandes: rows});
+            Commande.getAllStatutsCommande(function (results) {
+                res.render('users/vendeur/commande_list_day', {commandes: rows, statuts_commande: results});
+            })
         })
     },
 
     commande_put: function (req, res) {
-
+        console.log("commande : "+req.body.id_commande);
+        console.log("statut : "+req.body.id_statut_commande)
+        Commande.updateStatutCommande(req.body.id_commande, req.body.id_statut_commande);
+        res.end();
     },
 
     produit_manage_get: function(req, res) {
@@ -108,5 +120,23 @@ module.exports = {
 
         })
     },
+
+    stats: function (req, res) {
+        Commande.getStats(6, function (rows) {
+
+            labels = [];
+            data = [];
+
+            for (let i = 0; i < rows.length; i++) {
+                labels.push(rows[i].libelle_produit);
+                data.push(rows[i].nb);
+            }
+
+            console.log(labels)
+            console.log(data)
+
+            res.render('users/vendeur/stats', {libelles: labels, donnees: data});
+        })
+    }
 
 }

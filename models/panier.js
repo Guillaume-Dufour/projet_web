@@ -38,6 +38,20 @@ class Panier {
         })
     }
 
+    static containProduit(id_utilisateur, id_produit, cb) {
+
+        let requete = "SELECT count(*) as nb FROM panier WHERE id_utilisateur = ? AND id_produit = ?";
+
+        connexion.query(requete, [id_utilisateur, id_produit], function (err, result) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(result[0].nb);
+            }
+        })
+    }
+
     static getPrix(id_utilisateur, cb) {
 
         let requete = "SELECT ROUND(ifnull(SUM(pr.prix_produit * pa.quantite * pr.poids_produit),0),2) as prix_total " +

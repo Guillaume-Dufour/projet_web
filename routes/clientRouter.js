@@ -17,6 +17,9 @@ router.route('/profil')
     .get(clientCtrl.profil)
     .put(userCtrl.delete_profil)
 
+router.route('/profil_modify')
+    .get(clientCtrl.profil_modify_get)
+
 router.route('/commandes')
     .get(clientCtrl.commandes_list)
 

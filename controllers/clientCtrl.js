@@ -20,6 +20,13 @@ module.exports = {
 
     },
 
+    profil_modify_get: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (row) {
+            res.render('users/profil_modify', {user: row});
+        })
+    },
+
     commandes_list: function (req, res) {
         var token_decoded = jwt.verify(Token.getToken(req), Token.key());
 
@@ -43,7 +50,7 @@ module.exports = {
         Commande.getCommandeById(req.params.id_commande, function (rows) {
 
             for (let i = 0; i < rows.length; i++) {
-                rows[i].prix = rows[i].quantite_produit*rows[i].prix_produit;
+                rows[i].prix = rows[i].quantite_produit*rows[i].prix_produit*rows[i].poids_produit;
             }
 
             res.render('users/client/commande_details', {commande : rows});

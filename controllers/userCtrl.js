@@ -112,6 +112,8 @@ module.exports = {
 
     homepage: function (req, res) {
 
+        console.log(req.cookies['secretToken'])
+
         if (req.cookies['secretToken'] !== undefined) {
             var token_decoded = jwt.verify(Token.getToken(req), Token.key());
             console.log(token_decoded)
@@ -159,6 +161,35 @@ module.exports = {
         else {
             res.redirect('/users/login')
         }
+    },
+
+    profil_modify_get: function (req, res) {
+        if (req.cookies['secretToken'] !== undefined) {
+            var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+            console.log(token_decoded)
+
+            switch (token_decoded.type_utilisateur) {
+                case 1:
+                    res.redirect('/users/admin/profil_modify');
+                    break;
+                case 2:
+                    res.redirect('/users/vendeur/profil_modify');
+                    break;
+                case 3:
+                    res.redirect('/users/client/profil_modify');
+                    break;
+                default:
+                    res.redirect('/users/login');
+            }
+        }
+        else {
+            res.redirect('/users/login')
+        }
+    },
+
+    profil_modify_put: function (req, res) {
+
+        res.redirect('/users/profil');
     },
 
     deconnect: function (req, res) {

@@ -12,13 +12,15 @@
 
 <div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
     <div class="text-center">
-        <img src="/public/images/produits/<%= produit.photo_produit %>" width="200" class="img-fluid" alt="Responsive image">
+        <img src="/public/images/produits/<%= produit.photo_produit %>" width="150" class="img-fluid" alt="Responsive image">
     </div>
     <div class="text-center">
         <%= produit.libelle_produit %>
     </div>
 
-    <% if (locals.estConnecte === 1) { %>
+    <% if (locals.estConnecte === 1 && locals.type_utilisateur === 3) { %>
+
+        <!-- FORMULAIRE AJOUT PRODUIT AU PANIER -->
         <form action="/users/client/add_panier" method="post">
             <div class="form-group">
                 <label for="quantite">Quantité</label> :
@@ -30,6 +32,8 @@
             <input type="hidden" id="id_produit" name="id_produit" value="<%= produit.id_produit %>">
         </form>
 
+
+        <!-- FORMULAIRE AJOUT AUX PRODUITS FAVORIS -->
         <form action="/users/client/add_produit_favori" method="post">
             <div class="form-group text-center">
                 <input type="submit" class="btn btn-primary" name="produit_favori" value="Ajouter aux produits favoris">
@@ -37,29 +41,80 @@
             <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit.id_produit %>">
         </form>
 
-        <form action="/users/client/avis" method="post">
+        <% if (locals.exist === 0) { %>
+        <!-- FORMULAIRE POUR POSTER SON AVIS -->
+        <form action="/produits/avis" method="post">
             <div class="form-group text-center">
                 <label for="avis">Avis</label> :
                 <textarea name="avis" id="avis"></textarea>
             </div>
             <div class="form-group text-center">
+                <label for="note">Note</label> (sur 5) :
+                <input type="number" name="note" min="0" max="5" step="1">
+            </div>
+            <div class="form-group text-center">
                 <input type="submit" class="btn btn-success" name="bouton_avis" value="Poster votre avis">
             </div>
-            <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit.id_produit %>">
+            <input type="hidden" id="id_produit_avis" name="id_produit_avis" value="<%= produit.id_produit %>">
         </form>
+        <% } %>
     <% }
-    else { %>
+    else if (locals.estConnecte ===0 ) { %>
     <div class="text-center">
-        <a href="/users/login" class="btn btn-danger">Connectez-vous en cliquant ici pour pouvoir ajouter ce produit à votre panier</a>
+        <a href="/users/login">Connectez-vous en cliquant ici pour pouvoir ajouter ce produit à votre panier</a>
     </div>
     <% } %>
 
+    <% for (var i = 0; i < avis.length; i++) { %>
+    <div id="avis_<%= i %>">
+        <div id="auteur">
+            <%= avis[i].prenom_utilisateur+" "+avis[i].nom_utilisateur %>
+        </div>
+        <div id="note">
+            <%= avis[i].note+"/5" %>
+        </div>
+        <div id="contenu">
+            <%= avis[i].commentaire_avis %>
+        </div>
+        <% if (avis[i].id_utilisateur === locals.id_utilisateur) { %>
+        <button type="button" id="button_delete_<%= i %>" class="btn btn-primary">Supprimer l'avis</button>
+        <% } %>
+        <br>
+    </div>
 
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#button_delete_<%= i %>').click(function () {
+                    $.ajax({
+                        url: '/produits/avis',
+                        type: 'DELETE',
+                        data: {id_produit: <%= produit.id_produit %>},
+                        dataType: 'html',
+                        success: function () {
 
+                            $(document.getElementById('avis_<%= i %>')).toggle('fast');
 
+                        },
+                        error: function () {
+                            console.log("Erreur");
+                        }
+                    })
+                });
+            });
+        </script>
+
+    <% } %>
 
 </div>
+
+
 <a href="javascript:history.back()" class="btn btn-secondary">Retour</a>
 </body>
+
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous">
+</script>
 
 </html>

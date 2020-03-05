@@ -20,4 +20,8 @@ router.route('/update/:id')
     .get(produitCtrl.update_get)
     .put(produitCtrl.update_put)
 
+router.route('/avis')
+    .post(produitCtrl.avis_post)
+    .delete(produitCtrl.avis_delete)
+
 module.exports = router;

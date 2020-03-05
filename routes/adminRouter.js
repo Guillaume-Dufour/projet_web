@@ -13,6 +13,9 @@ router.route('/homepage')
 router.route('/profil')
     .get(adminCtrl.profil)
 
+router.route('/profil_modify')
+    .get(adminCtrl.profil_modify_get)
+
 router.route('/produit_create')
     .get(produitCtrl.produit_create_get)
     .post(produitCtrl.produit_create_post)

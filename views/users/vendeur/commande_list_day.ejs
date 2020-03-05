@@ -28,11 +28,36 @@
                 <th scope="row"><%= commandes[i].id_commande %></th>
                 <td><%= commandes[i].titre+" "+commandes[i].nom_utilisateur+" "+commandes[i].prenom_utilisateur %></td>
                 <td><%= commandes[i].date_retrait_commande %></td>
-                <td><%= commandes[i].libelle_statut_commande %></td>
+                <td>
+                    <select name="id_type_produit" id="id_type_produit">
+                        <% for (var j = 0; j < statuts_commande.length; j++) { %>
+                            <option value="<%= statuts_commande[j].id_statut_commande %>" <%= (commandes[i].id_statut_commande === statuts_commande[j].id_statut_commande ? "selected" : "") %>><%= statuts_commande[j].libelle_statut_commande %></option>
+                        <% } %>
+                    </select>
+                </td>
                 <td><a href="/users/vendeur/commandes_search/<%= commandes[i].id_commande %>" class="btn btn-primary">Voir la commande</a></td>
-                <td><button id="button_update<%= i %>" class="btn btn-warning">Mettre à jour</button></td>
+                <td><button id="button_update_<%= i %>" class="btn btn-warning">Mettre à jour</button></td>
 
             </tr>
+
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#button_update_<%= i %>').click(function () {
+                        $.ajax({
+                            url: '/users/vendeur/commande_search',
+                            type: 'PUT',
+                            data: {id_commande: <%= commandes[i].id_commande %>, id_statut_commande: document.getElementById('id_type_produit').value},
+                            dataType: 'html',
+                            success: function () {
+                                console.log("Update réussi")
+                            },
+                            error: function () {
+                                console.log("Erreur");
+                            }
+                        })
+                    });
+                });
+            </script>
         <% } %>
         </tbody>
     </table>

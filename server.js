@@ -29,27 +29,17 @@ var uploadHandler = multer({
     })
 });
 
+app.use('/public', express.static(__dirname + '/public'));
+app.use(express('views'));
+
 app.get('/upload', function (req, res) {
     res.render('testform')
 })
 
 app.post('/upload', uploadHandler.any(), function (req, res) {
-    console.log(req.files);
+    console.log(req.files.path);
     res.json(req.files);
 });
-
-
-
-
-const gc = new Storage({
-    keyFilename: path.join(__dirname, './gleaming-realm-270117-50b858c69f0e.json'),
-    projectId: 'gleaming-realm-270117'
-});
-
-const charcutBucket = gc.bucket('projet_web_charcuterie_dufour_guillaume');
-
-app.use('/public', express.static(__dirname + '/public'));
-app.use(express('views'));
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -68,7 +58,7 @@ app.use('/produits', produitRouter);
 
 
 
-app.get('/', userMdlw.is_connected_for_navbar, function (req, res) {
+app.get('/', userMdlw.is_connected_for_navbar, userMdlw.type_user, function (req, res) {
     res.render('accueil')
 })
 

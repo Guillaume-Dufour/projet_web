@@ -17,6 +17,13 @@ module.exports = {
 
     },
 
+    profil_modify_get: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+        Utilisateur.getUserById(token_decoded.id_utilisateur, function (row) {
+            res.render('users/profil_modify', {user: row});
+        })
+    },
+
     delete_infos_user: function (req, res) {
         Utilisateur.deleteInfos(req.body.id_utilisateur);
         res.end();

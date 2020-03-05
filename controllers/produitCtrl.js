@@ -1,5 +1,6 @@
 let Produit = require('../models/produit');
 let Commande = require('../models/commande');
+let Avis = require('../models/avis');
 let Token = require('../models/token');
 let jwt = require('jsonwebtoken');
 let fs = require('fs');
@@ -14,8 +15,48 @@ module.exports = {
 
     details: function (req, res) {
         Produit.getProduitById(req.params.id_produit, function (rows) {
-            res.render('produits/details', {produit: rows});
+            Avis.getAllAvisOfProduit(req.params.id_produit, function (result) {
+                if (req.cookies['secretToken'] !== undefined) {
+                    let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+                    Avis.exist(token_decoded.id_utilisateur, req.params.id_produit, function (resultat) {
+                        res.locals.exist = resultat;
+                        res.locals.id_utilisateur = token_decoded.id_utilisateur;
+                        res.render('produits/details', {produit: rows, avis: result});
+                    })
+                }
+            })
         })
+    },
+
+    avis_post: function (req, res) {
+
+        let d = new Date();
+        let day = d.getDate();
+        let month = d.getMonth()+1;
+        let year = d.getFullYear();
+        let hour = d.getHours();
+        let minutes = d.getMinutes();
+        let secondes = d.getSeconds();
+        let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+day : day)+' '+(hour < 10 ? "0"+hour : hour)+':'+(minutes < 10 ? "0"+minutes : minutes)+':'+(secondes < 10 ? "0"+secondes : secondes);
+
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+
+        let data = {
+            id_utilisateur: token_decoded.id_utilisateur,
+            id_produit: req.body.id_produit_avis,
+            date_avis: full_date,
+            commentaire_avis: req.body.avis,
+            note: req.body.note
+        }
+
+        Avis.create(data);
+        res.redirect('/produits/details/'+req.body.id_produit_avis);
+    },
+
+    avis_delete: function (req, res) {
+        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key())
+        Avis.delete(token_decoded.id_utilisateur, req.body.id_produit)
+        res.end();
     },
 
     details_post: function(req, res) {
