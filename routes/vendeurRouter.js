@@ -3,7 +3,6 @@ let router = express.Router();
 let vendeurCtrl = require('../controllers/vendeurCtrl');
 let produitCtrl = require('../controllers/produitCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
-let jwt = require('jsonwebtoken');
 
 
 router.use(usersMdlw.is_connected_for_navbar);
@@ -21,9 +20,8 @@ router.route('/profil_modify')
 router.route('/infos_clients')
     .get(vendeurCtrl.clients_list)
 
-router.route('/produit_create')
-    .get(produitCtrl.produit_create_get)
-    .post(produitCtrl.produit_create_post)
+router.get('/produit_create', produitCtrl.produit_create_get)
+router.post('/produit_create', produitCtrl.produit_create_post)
 
 router.route('/produit_update/:id')
     .get(produitCtrl.update_get)
@@ -45,5 +43,29 @@ router.route('/commandes_client/:id')
 
 router.route('/stats')
     .get(vendeurCtrl.stats)
+
+router.get('/upload', function (req, res) {
+    res.render('testform');
+})
+
+/*router.post(
+
+    '/upload',
+
+    multer.single('image'),
+
+    gcsMiddlewares.sendUploadToGCS,
+
+    (req, res, next) => {
+
+        if (req.file && req.file.gcsUrl) {
+
+            return res.send(req.file.gcsUrl);
+        }
+        return res.status(500).send('Unable to upload');
+
+    },
+
+);*/
 
 module.exports = router;

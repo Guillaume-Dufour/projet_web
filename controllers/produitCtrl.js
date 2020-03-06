@@ -4,6 +4,18 @@ let Avis = require('../models/avis');
 let Token = require('../models/token');
 let jwt = require('jsonwebtoken');
 let fs = require('fs');
+let multer = require('multer');
+let multerGoogleStorage = require('multer-google-storage');
+//var uploadHandler = require('../config/uploadCloud').array('photo_produit', 1);
+
+var uploadHandler = multer({
+    storage: multerGoogleStorage.storageEngine({
+        keyFilename: "./keys.json",
+        projectId: 'gleaming-realm-270117',
+        bucket: 'projet_web_charcuterie_dufour_guillaume',
+    })
+}).array('photo_produit',1);
+
 
 module.exports = {
     liste: function (req, res) {
@@ -23,6 +35,9 @@ module.exports = {
                         res.locals.id_utilisateur = token_decoded.id_utilisateur;
                         res.render('produits/details', {produit: rows, avis: result});
                     })
+                }
+                else {
+                    res.render('produits/details', {produit: rows, avis: result});
                 }
             })
         })
@@ -71,6 +86,24 @@ module.exports = {
     },
 
     produit_create_post: function (req, res) {
+        console.log(req.body)
+        uploadHandler(req, res, function (err) {
+          if (err) {
+              throw err;
+          }
+          else {
+              console.log(req.body);
+              console.log(req.files)
+          }
+
+          res.end();
+
+      })
+    },
+
+    /*produit_create_post: function (req, res) {
+
+
 
         var errors = [];
 
@@ -113,14 +146,26 @@ module.exports = {
             errors.push("Aucune photo choisie");
         }
 
-        console.log(errors);
-
         if (errors.length > 0) {
             Produit.getAllTypesProduits(function (rows) {
                 res.render('produits/create', {types: rows, data: data});
             })
         }
         else {
+            var uploadHandler = multer({
+                storage: multerGoogleStorage.storageEngine({
+                    keyFilename: "../gleaming-realm-270117-50b858c69f0e.json",
+                    projectId: 'gleaming-realm-270117',
+                    bucket: 'projet_web_charcuterie_dufour_guillaume',
+                }),
+            });
+            var upload = uploadHandler.any();
+            console.log(upload)
+            upload(req, res, function (err) {
+                if (err) console.log(err);
+
+                console.log(req.files);
+            })
             fs.stat('public/images/produits/'+data.gencod_produit+'.jpg', function (err) {
                 if (!err) {
                     let alphabet = "azertyuiopqsdfghjklmwxcvbn";
@@ -147,8 +192,10 @@ module.exports = {
                 Produit.create(data);
                 res.redirect('/users/homepage');
             })
+
+            res.end();
         }
-    },
+    },*/
 
     produit_update_dispo: function(req, res) {
 
@@ -191,8 +238,6 @@ module.exports = {
             est_bio: (req.sanitize(req.body.est_bio) === undefined ? 0 : 1),
             gencod_produit: req.sanitize(req.body.gencod_produit)
         }
-
-        console.log(data)
 
         if (data.libelle_produit.length > 100) {
             errors.push("Le nom du produit est trop long");

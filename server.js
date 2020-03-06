@@ -15,31 +15,32 @@ let Panier = require('./models/panier');
 let methodOverride = require('method-override');
 let fileUpload = require('express-fileupload');
 const { Storage } = require('@google-cloud/storage');
-const path = require('path');
-var multer = require("multer");
-var multerGoogleStorage = require('multer-google-storage');
+let multer = require('multer');
+let multerGoogleStorage = require('multer-google-storage');
 
-var app = express();
-
-var uploadHandler = multer({
+let uploadHandler = multer({
+    limits: { fileSize: 1024*1024 },
     storage: multerGoogleStorage.storageEngine({
-        keyFilename: "./gleaming-realm-270117-50b858c69f0e.json",
+        keyFilename: "gleaming-realm-270117-50b858c69f0e.json",
         projectId: 'gleaming-realm-270117',
-        bucket: 'projet_web_charcuterie_dufour_guillaume'
+        bucket: 'projet_web_charcuterie_dufour_guillaume',
     })
 });
 
-app.use('/public', express.static(__dirname + '/public'));
-app.use(express('views'));
+var app = express();
 
 app.get('/upload', function (req, res) {
-    res.render('testform')
+    res.render('testform');
 })
 
 app.post('/upload', uploadHandler.any(), function (req, res) {
-    console.log(req.files.path);
+    console.log(req.body)
+    console.log(req.files);
     res.json(req.files);
-});
+})
+
+app.use('/public', express.static(__dirname + '/public'));
+app.use(express('views'));
 
 app.use(bodyParser.urlencoded({ extended: false}));
 app.use(bodyParser.json());
@@ -55,6 +56,7 @@ app.use('/users/client', clientRouter);
 app.use('/users/vendeur', vendeurRouter);
 app.use('/users/admin', adminRouter);
 app.use('/produits', produitRouter);
+
 
 
 

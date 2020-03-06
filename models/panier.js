@@ -4,9 +4,10 @@ class Panier {
 
     static addProduit(id_utilisateur, id_produit, quantite) {
 
-        let requete = "INSERT INTO panier(id_utilisateur, id_produit, quantite) VALUES (?,?,?)";
+        let requete = "INSERT INTO panier(id_utilisateur, id_produit, quantite) VALUES (?,?,?) " +
+            "ON DUPLICATE KEY UPDATE quantite = quantite + ?";
 
-        connexion.query(requete, [id_utilisateur, id_produit, quantite]);
+        connexion.query(requete, [id_utilisateur, id_produit, quantite, quantite]);
     }
 
     static deleteProduit(id_utilisateur, id_produit) {

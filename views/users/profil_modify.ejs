@@ -14,9 +14,9 @@
     <form action="/users/profil_modify?_method=PUT" method="post">
         <div class="form-group">
             <label for="sexe">M.</label>
-            <input type="radio" name="sexe" id="sexe" value="1" <%= (user.sexe_utilisateur === '1' ? "checked" : "") %> required/>
+            <input type="radio" name="sexe" id="sexe" value="1" <%= (user.sexe_utilisateur === 1 ? "checked" : "") %> required/>
             <label for="sexe">Mme</label>
-            <input type="radio" name="sexe" id="sexe" value="2" <%= (user.sexe_utilisateur === '2' ? "checked" : "") %> required/>
+            <input type="radio" name="sexe" id="sexe" value="2" <%= (user.sexe_utilisateur === 2 ? "checked" : "") %> required/>
         </div>
         <div class="form-group">
             <label for="nom">Nom</label> :
@@ -35,17 +35,17 @@
 
         <div class="form-group">
             <label for="password_actuel">Mot de passe actuel</label> :
-            <input type="password" class="form-control" name="password_actuel" id="password_actuel" required />
+            <input type="password" class="form-control" name="password_actuel" id="password_actuel" />
         </div>
 
         <div class="form-group">
             <label for="password">Nouveau mot de passe (8 caractères minimum)</label> :
-            <input type="password" class="form-control" name="password" id="password" required />
+            <input type="password" class="form-control" name="password" id="password" />
         </div>
 
         <div class="form-group">
-            <label for="password_confirm">Confirmation du ouveau mot de passe</label> :
-            <input type="password" class="form-control" name="password_confirm" id="password_confirm" required />
+            <label for="password_confirm">Confirmation du nouveau mot de passe</label> :
+            <input type="password" class="form-control" name="password_confirm" id="password_confirm" />
         </div>
 
         <div class="form-group">
@@ -57,6 +57,7 @@
             <input type="submit" class="btn btn-primary btn-dr" value="Modifier le profil">
         </div>
         <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="old_mail" value="<%= user.mail_utilisateur %>">
     </form>
 </div>
 <br>
