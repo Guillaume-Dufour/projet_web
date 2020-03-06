@@ -188,62 +188,68 @@ module.exports = {
 
         const REGEX_MAIL = /(?:[a-z0-9!#$%&'+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 
-        var data = {
-            nom_utilisateur: req.sanitize(req.body.nom.toUpperCase()),
-            prenom_utilisateur: req.sanitize(req.body.prenom.charAt(0).toUpperCase()+req.body.prenom.slice(1)),
-            mail_utilisateur: req.sanitize(req.body.mail),
-            sexe_utilisateur: req.sanitize(req.body.sexe),
-            password_utilisateur: req.body.password,
-            telephone_utilisateur: req.sanitize(req.body.telephone)
-        };
+        let data = new Map();
+
+        data.set('nom_utilisateur', req.sanitize(req.body.nom.toUpperCase()));
+        data.set('prenom_utilisateur', req.sanitize(req.body.prenom.charAt(0).toUpperCase()+req.body.prenom.slice(1)));
+        data.set('mail_utilisateur', req.sanitize(req.body.mail));
+        data.set('sexe_utilisateur', req.sanitize(req.body.sexe));
+        data.set('password_utilisateur', req.body.password);
+        data.set('telephone_utilisateur', req.sanitize(req.body.telephone));
 
         let old_mail = req.body.old_mail;
 
-        if (data.sexe_utilisateur === undefined) {
+        if (data.get('sexe_utilisateur') === undefined) {
             errors.push("Aucun titre de civilité n'a été coché")
         }
 
-        if (data.nom_utilisateur.length > 100) {
+        if (data.get('nom_utilisateur').length > 100) {
             errors.push("Le nom saisi est trop long (100 caractères maximum)");
-            delete data.nom_utilisateur;
+            data.delete('nom_utilisateur');
         }
 
-        if (data.prenom_utilisateur.length > 100) {
+        if (data.get('prenom_utilisateur').length > 100) {
             errors.push("Le prénom saisi est trop long (100 caractères maximum)");
-            delete data.prenom_utilisateur;
+            data.delete('prenom_utilisateur');
         }
 
-        if (!REGEX_MAIL.test(data.mail_utilisateur)) {
+        if (!REGEX_MAIL.test(data.get('mail_utilisateur'))) {
             errors.push("Adresse mail invalide");
-            delete data.mail_utilisateur;
+            data.delete('mail_utilisateur');
         }
 
-        if (data.password_utilisateur !== undefined && data.password_utilisateur.length >= 8) {
-            if (req.body.password_actuel === data.password_utilisateur && data.password_utilisateur === req.body.password_confirm) {
-                data.password_utilisateur = bcrypt.hashSync(req.sanitize(data.password_utilisateur),10);
+        if (data.get('telephone_utilisateur') !== undefined) {
+            if (data.get('telephone_utilisateur').charAt(0) !== '0' || data.get('telephone_utilisateur').length > 10) {
+                errors.push("Saisie du numéro de téléphone invalide");
+                data.delete('telephone_utilisateur');
             }
-            else {
-                errors.push("Erreur dans la saisie des mots de passe");
-                delete data.password_utilisateur;
+        }
+
+        if (data.get('password_utilisateur') !== '') {
+            if (data.get('password_utilisateur').length >= 8) {
+                if (req.body.password_actuel === data.get('password_utilisateur') && data.get('password_utilisateur') === req.body.password_confirm) {
+                    data.set('password_utilisateur', bcrypt.hashSync(req.sanitize(data.get('password_utilisateur')), 10));
+                } else {
+                    errors.push("Erreur dans la saisie des mots de passe");
+                    data.delete('password_utilisateur');
+                }
+            } else {
+                errors.push("Taille du mot de passe saisi insuffisante");
+                data.delete('password_utilisateur');
             }
         }
         else {
-            errors.push("Taille du mot de passe saisi insuffisante");
-            delete data.password_utilisateur;
+            delete data.delete('password_utilisateur');
         }
 
-        if (data.telephone_utilisateur !== undefined) {
-            if (data.telephone_utilisateur.charAt(0) !== '0' || data.telephone_utilisateur.length > 10) {
-                errors.push("Saisie du numéro de téléphone invalide");
-                delete data.telephone_utilisateur;
-            }
-        }
+
 
         Utilisateur.exist(data.mail_utilisateur, function(result) {
-            if (result === 1) {
+            if (result === 1 && old_mail !== data.get('mail_utilisateur')) {
                 errors.push("Mail déjà existant");
-                delete data.mail_utilisateur;
+                data.delete('mail_utilisateur');
             }
+
             console.log(errors)
 
             if (errors.length === 0) {
@@ -253,9 +259,9 @@ module.exports = {
                 })
             }
             else {
-                delete data.password_utilisateur;
+                data.delete('password_utilisateur');
                 Utilisateur.getUserByMail(old_mail, function (row) {
-                    res.render('users/profil_modify', { errors : errors, user: row });
+                    res.redirect('/users/profil_modify');
                 })
 
             }

@@ -49,7 +49,7 @@
                             data: {id_commande: <%= commandes[i].id_commande %>, id_statut_commande: document.getElementById('id_type_produit').value},
                             dataType: 'html',
                             success: function () {
-                                console.log("Update réussi")
+                                window.alert("Le statut de la commande a été mis à jour !");
                             },
                             error: function () {
                                 console.log("Erreur");

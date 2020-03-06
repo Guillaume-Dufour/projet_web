@@ -104,7 +104,27 @@ class Utilisateur {
 
     static update(id_utilisateur, data) {
 
-        let requete = "UPDATE utilisateur SET ";
+        let values = [];
+        let requete = "UPDATE utilisateur SET";
+
+        let keys = data.keys();
+
+        for (let key of keys) {
+            console.log(key);
+            requete += " "+key+" = ?,";
+            values.push(data.get(key));
+        }
+
+        values.push(id_utilisateur)
+
+        requete = requete.substring(0, requete.length-1);
+        requete += " WHERE id_utilisateur = ? ";
+
+        connexion.query(requete, values, function (err) {
+            if (err) {
+                throw err;
+            }
+        });
     }
 
     static deleteInfos(id_utilisateur) {

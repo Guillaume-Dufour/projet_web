@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "gleaming-realm-270117",
+  "private_key_id": "50b858c69f0e5743a2c841e56a382d13c6bb183b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCZZAh3mg2/KfwL\n6h/uYnriMPVw9EeGm6PcBJBbS9c8YawHSryoMb8+AtNWIy+QkWTR4pllx3qW50ux\no9YOtQPFni7kbjyjehBHaDV9U2PRtQ5t2LoItKIRm3ooXKJeD20cOtL8k9wNH6Sb\nYZho6ECy3kAMw913jFMG5FI2M3k43QXv25UxaMGLk96VQsr2S5207YJgkEvmKFEx\nKgSFugzwKLcmjlpAZAbmgOIAdEocrUmj/1Kv08s9U/9owHtXWHsIUivkJPx6zYci\neCfohR5tw6si7mPmUgHxjWV2mMKsFzpyK5DOoU2lpPa7jw9rmseoZLxKHLx2NQxK\n8GTASvATAgMBAAECggEAO0spYL5KwRIkLaDfngEwej4tqm+rNHP2h+a1vKzY8yzY\nWGtB+Qxd3kUuV3Y7fTlOzTk4Tdkp4KphHrZz2PSNFDd87e1VAGZ/Y3L7dkolZFuG\nS90CsLnOilrdAjwowY5aAZcVlvA7GFGaijvUM/1PgTUbcjPGaN9z+s6Inw4PtnRU\nA/MUgq26ZECcmXxQ+KfUfiVOPN5wLjOXroOOnfaX9oW2HefCRbG/211JRtm9xAM3\n3BRZ8f/MgB7Lwdlw8ESRlpZUV7rj9vpead4BqjQXEQGMcO5gDp1dHR/lFSp9HjOb\nBzJkpQWUaa9n8tW6F2lWMsu+RoPoDunpyunZ93AtXQKBgQDX0h0kybvl5YK+EmAe\nWtTBRK8JddB8lBetGY6sr53pUiReNVcFQ06oIZI3GetJjdSoki78RdRXuvcJlSoN\nmJ2DijFCUaNtdWk8hTZbDPDEzd6rxiLCgA70joNuacHGTG9Y6kvmt1qbH+G82rS+\nFFnGdLshpNspYBfbiqWGwaaY7QKBgQC18osQjfi091kXuAEXYQsJggQcZvNQxt5D\nQMcsTtrTLwuFTYnZZwvdoPYeZYBxIJf3ofuG4+OqvrvPElV1n/7Moo23O48BuK9V\ncIrXG3olBBYdRilhrRrurq5o7MzwOvdzuDZzDxLSr0bN89A9EYN9oDFjC0vtNNLy\nCkA82rOM/wKBgETaN4oBAfz6F5fj7N5CRBXUf7MY7waPiG4k9SuKa2qAVjHn+ncn\nXfStoSQLFNFGek29NVguPuwuLZnVCLGFutq4P7bUrLrC9mvkY87wde+TbjKG55f9\nmsfSn4OeIb/NqshHFyfn3vQWW8IQVBFAFNQHcZvuKC0vBu13cg9nwGqRAoGATCwP\nlk2pmrGXBfwN0Ojaww9Ag1eCdAXd1VAQUnds207txtAQbwjaCd4yS8V4wWPA23Zg\nJDfR/5C8ddOaHZVvCeLf658unqzgEqf8KFQjjc2pKHZQKsla5iQRdnH01noJUNQF\nT6Q24CdrQBvbyUVExFpFcs6u6c7cpWIvRIrW8qcCgYEApIHZBqfZXe3HYj5Co5k2\n6qz99GLj92HSNaNiQ9faEbBPgFtlzZm1mfTbkrX65rKWM/Vs5ZCI7EuCWiSoGxOL\nQaT4aD5XdZpp+Fa1w75YILUmfeiwwKeBp3Mg7rHjsG/JGdbACOBwrAMtC9aCnJz3\nwSC5jiMRisWB3Ddp3HjZueQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "charcuterie-dufour-guillaume@gleaming-realm-270117.iam.gserviceaccount.com",
+  "client_id": "110064567398006325236",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/charcuterie-dufour-guillaume%40gleaming-realm-270117.iam.gserviceaccount.com"
+}
