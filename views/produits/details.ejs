@@ -24,10 +24,10 @@
         <form action="/users/client/add_panier" method="post">
             <div class="form-group">
                 <label for="quantite">Quantité</label> :
-                <input type="number" class="form-control" id="quantite" name="quantite" required/>
+                <input type="number" min="1" class="form-control" id="quantite" name="quantite" required/>
             </div>
             <div class="form-group text-center">
-                <input type="submit" class="btn btn-warning" value="Ajouter au panier">
+                <input type="submit" class="btn btn-warning" id="submit_panier" value="Ajouter au panier">
             </div>
             <input type="hidden" id="id_produit" name="id_produit" value="<%= produit.id_produit %>">
         </form>
@@ -36,7 +36,7 @@
         <!-- FORMULAIRE AJOUT AUX PRODUITS FAVORIS -->
         <form action="/users/client/add_produit_favori" method="post">
             <div class="form-group text-center">
-                <input type="submit" class="btn btn-primary" name="produit_favori" value="Ajouter aux produits favoris">
+                <input type="submit" class="btn btn-primary" id="submit_produit_favori" name="produit_favori" value="Ajouter aux produits favoris">
             </div>
             <input type="hidden" id="id_produit_favori" name="id_produit_favori" value="<%= produit.id_produit %>">
         </form>
@@ -53,7 +53,7 @@
                 <input type="number" name="note" min="0" max="5" step="1">
             </div>
             <div class="form-group text-center">
-                <input type="submit" class="btn btn-success" name="bouton_avis" value="Poster votre avis">
+                <input type="submit" class="btn btn-success" id="submit_avis" name="bouton_avis" value="Poster votre avis">
             </div>
             <input type="hidden" id="id_produit_avis" name="id_produit_avis" value="<%= produit.id_produit %>">
         </form>
@@ -76,7 +76,7 @@
         <div id="contenu">
             <%= avis[i].commentaire_avis %>
         </div>
-        <% if (avis[i].id_utilisateur === locals.id_utilisateur) { %>
+        <% if (avis[i].id_utilisateur === locals.id_utilisateur || locals.type_utilisateur === 1) { %>
         <button type="button" id="button_delete_<%= i %>" class="btn btn-primary">Supprimer l'avis</button>
         <% } %>
         <br>
@@ -88,7 +88,7 @@
                     $.ajax({
                         url: '/produits/avis',
                         type: 'DELETE',
-                        data: {id_produit: <%= produit.id_produit %>},
+                        data: {id_utilisateur: <%= avis[i].id_utilisateur %>,  id_produit: <%= produit.id_produit %>},
                         dataType: 'html',
                         success: function () {
 
@@ -115,6 +115,20 @@
         src="https://code.jquery.com/jquery-3.4.1.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
         crossorigin="anonymous">
+</script>
+<script>
+    $(document).ready(function () {
+        $('#submit_panier').click(function () {
+            if (document.getElementById('quantite').value > 0) {
+                alert("Le produit a été ajouté à votre panier")
+            }
+        });
+
+        $('#submit_produit_favori').click(function () {
+            alert("Le produit a été ajouté à vos produits favoris")
+        })
+
+    })
 </script>
 
 </html>

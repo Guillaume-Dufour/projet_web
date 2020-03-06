@@ -20,7 +20,7 @@ class Client {
 
     static addProduitFavori(id_utilisateur, id_produit) {
 
-        let requete = "INSERT INTO produit_favori(id_utilisateur, id_produit) VALUES (?,?)";
+        let requete = "INSERT IGNORE INTO produit_favori(id_utilisateur, id_produit) VALUES (?,?)";
 
         connexion.query(requete, [id_utilisateur, id_produit]);
     }

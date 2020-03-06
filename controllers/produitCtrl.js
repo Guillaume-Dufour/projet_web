@@ -69,8 +69,7 @@ module.exports = {
     },
 
     avis_delete: function (req, res) {
-        let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key())
-        Avis.delete(token_decoded.id_utilisateur, req.body.id_produit)
+        Avis.delete(req.body.id_utilisateur, req.body.id_produit)
         res.end();
     },
 
