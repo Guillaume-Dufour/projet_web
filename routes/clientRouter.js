@@ -24,7 +24,7 @@ router.route('/commandes')
     .get(clientCtrl.commandes_list)
 
 router.route('/commandes/:id_commande')
-    .get(clientCtrl.commande_details)
+    .get(usersMdlw.verif_commande_user, clientCtrl.commande_details)
 
 router.route('/panier')
     .get(clientCtrl.panier)

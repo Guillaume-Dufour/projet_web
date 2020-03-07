@@ -75,6 +75,7 @@ module.exports = {
         }
         else {
             Panier.addProduit(token_decoded.id_utilisateur,req.body.id_produit,req.body.quantite);
+            res.status(201);
             res.redirect('/produits/liste');
         }
 
@@ -85,6 +86,7 @@ module.exports = {
         await Panier.deleteProduit(token_decoded.id_utilisateur,req.body.id_produit)
         Panier.getPrix(token_decoded.id_utilisateur, function (prix_total) {
             res.write(""+prix_total)
+            res.status(200);
             res.end();
         })
     },
@@ -93,7 +95,6 @@ module.exports = {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Client.getProduitsFavoris(token_decoded.id_utilisateur, function (rows) {
             res.render('users/client/produits_favoris', {produits: rows});
-
         })
 
     },
@@ -101,6 +102,7 @@ module.exports = {
     add_produit_favori: function (req, res) {
         var token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Client.addProduitFavori(token_decoded.id_utilisateur,req.body.id_produit_favori);
+        res.status(201);
         res.redirect('/produits/details/'+req.body.id_produit_favori);
     },
 
@@ -127,12 +129,14 @@ module.exports = {
             Panier.empty(data.id_utilisateur);
         });
 
+        res.status(201);
         res.redirect('/users/homepage');
     },
 
     delete_produit_favori: function (req, res) {
         let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Client.deleteProduitFavori(token_decoded.id_utilisateur,req.body.id_produit)
+        res.status(200);
         res.end();
     }
 

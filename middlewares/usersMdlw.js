@@ -1,5 +1,6 @@
 let jwt = require('jsonwebtoken');
 let Token = require('../models/token');
+let Commande = require('../models/commande');
 
 module.exports = {
 
@@ -81,5 +82,18 @@ module.exports = {
         }
 
         next();
+    },
+
+    verif_commande_user: function (req, res, next) {
+        Commande.getCommandeById(req.params.id_commande, function (commande) {
+            let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
+
+            if (commande[0].id_utilisateur === token_decoded.id_utilisateur) {
+                next();
+            }
+            else {
+                res.redirect('/users/homepage');
+            }
+        });
     }
 }

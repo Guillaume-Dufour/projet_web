@@ -25,6 +25,21 @@ class Produit {
         })
     }
 
+    static getAllProduitsDispoByType(id_type_produit, cb) {
+
+        let requete = "SELECT * FROM produit WHERE id_type_produit = ? AND est_dispo = 1";
+
+        connexion.query(requete, [id_type_produit], function (err, rows) {
+            if (err) {
+                throw err;
+            }
+            else {
+                cb(rows);
+            }
+
+        })
+    }
+
     static getAllTypesProduits(cb) {
 
         let requete = "SELECT * FROM type_produit ORDER BY libelle_type_produit, libelle_sous_type_produit";

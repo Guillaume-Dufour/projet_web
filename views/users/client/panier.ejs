@@ -54,6 +54,10 @@
 
                                 $(document.getElementById('ligne_<%= i %>')).toggle('fast');
 
+                                if (new_prix_total === '0') {
+                                    $(document.getElementById('details_commande')).toggle('fast');
+                                }
+
                             },
                             error: function () {
                                 console.log("Erreur");
@@ -76,23 +80,25 @@ let full_date = year+"-"+(month < 10 ? "0"+month : month)+'-'+(day < 10 ? "0"+da
 %>
 
 <% if (panier.length > 0) { %>
+<div id="details_commande">
     <div id="prix_total" class="d-flex flex-row">
         Prix total : <%= prix_total %> €
     </div>
     <br>
-<form action="/users/client/panier" method="post">
-    <div class="form-group">
-        <label for="date_retrait_commande">Date</label> :
-        <input type="date" class="form-group" min="<%= full_date %>" id="date_retrait_commande" name="date_retrait_commande" required>
-    </div>
+    <form action="/users/client/panier" method="post">
+        <div class="form-group">
+            <label for="date_retrait_commande">Date</label> :
+            <input type="date" class="form-group" min="<%= full_date %>" id="date_retrait_commande" name="date_retrait_commande" required>
+        </div>
 
-    <div class="form-group">
-        <label for="heure_retrait_commande">Heure</label> :
-        <input type="time" id="heure_retrait_commande" name="heure_retrait_commande">
-    </div>
+        <div class="form-group">
+            <label for="heure_retrait_commande">Heure</label> :
+            <input type="time" id="heure_retrait_commande" name="heure_retrait_commande">
+        </div>
 
-    <input type="submit" class="btn btn-success" value="Valider la commande">
-</form>
+        <input type="submit" class="btn btn-success" value="Valider la commande">
+    </form>
+</div>
 <% } %>
 
 </body>

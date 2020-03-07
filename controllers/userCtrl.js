@@ -66,6 +66,7 @@ module.exports = {
 
             if (errors.length === 0) {
                 Utilisateur.create(data);
+                res.status(200);
                 res.redirect('/users/login');
             }
             else {
@@ -101,9 +102,11 @@ module.exports = {
                 case 1:
                     var jwt_token = jwt.sign({id_utilisateur: user.id_utilisateur, type_utilisateur: user.type_utilisateur}, Token.key(), {expiresIn: '2h'});
                     Token.setToken(jwt_token, res);
+                    res.status(200);
                     res.redirect('/users/homepage');
                     break;
                 default:
+                    res.status(200);
                     res.redirect('/users/login');
             }
         });
@@ -225,51 +228,58 @@ module.exports = {
             }
         }
 
-        if (data.get('password_utilisateur') !== '') {
-            if (data.get('password_utilisateur').length >= 8) {
-                if (req.body.password_actuel === data.get('password_utilisateur') && data.get('password_utilisateur') === req.body.password_confirm) {
-                    data.set('password_utilisateur', bcrypt.hashSync(req.sanitize(data.get('password_utilisateur')), 10));
-                } else {
-                    errors.push("Erreur dans la saisie des mots de passe");
+        Utilisateur.getUserById(jwt.verify(req.cookies['secretToken'], Token.key()).id_utilisateur, function (user) {
+            if (data.get('password_utilisateur') !== '') {
+                if (data.get('password_utilisateur').length >= 8) {
+                    if (bcrypt.compareSync(req.body.password_actuel, user.password_utilisateur) && data.get('password_utilisateur') === req.body.password_confirm) {
+                        data.set('password_utilisateur', bcrypt.hashSync(req.sanitize(data.get('password_utilisateur')), 10));
+                    }
+                    else {
+                        errors.push("Erreur dans la saisie des mots de passe");
+                        data.delete('password_utilisateur');
+                    }
+                }
+                else {
+                    errors.push("Taille du mot de passe saisi insuffisante");
                     data.delete('password_utilisateur');
                 }
-            } else {
-                errors.push("Taille du mot de passe saisi insuffisante");
-                data.delete('password_utilisateur');
-            }
-        }
-        else {
-            delete data.delete('password_utilisateur');
-        }
-
-
-
-        Utilisateur.exist(data.mail_utilisateur, function(result) {
-            if (result === 1 && old_mail !== data.get('mail_utilisateur')) {
-                errors.push("Mail déjà existant");
-                data.delete('mail_utilisateur');
-            }
-
-            console.log(errors)
-
-            if (errors.length === 0) {
-                Utilisateur.getUserByMail(old_mail, function (row) {
-                    Utilisateur.update(row.id_utilisateur, data);
-                    res.redirect('/users/profil');
-                })
             }
             else {
-                data.delete('password_utilisateur');
-                Utilisateur.getUserByMail(old_mail, function (row) {
-                    res.redirect('/users/profil_modify');
-                })
-
+                delete data.delete('password_utilisateur');
             }
+
+
+
+            Utilisateur.exist(data.mail_utilisateur, function(result) {
+                if (result === 1 && old_mail !== data.get('mail_utilisateur')) {
+                    errors.push("Mail déjà existant");
+                    data.delete('mail_utilisateur');
+                }
+
+                console.log(errors)
+
+                if (errors.length === 0) {
+                    Utilisateur.getUserByMail(old_mail, function (row) {
+                        Utilisateur.update(row.id_utilisateur, data);
+                        res.status(200);
+                        res.redirect('/users/profil');
+                    })
+                }
+                else {
+                    data.delete('password_utilisateur');
+                    Utilisateur.getUserByMail(old_mail, function (row) {
+                        res.redirect('/users/profil_modify');
+                    })
+
+                }
+            })
         })
+
     },
 
     deconnect: function (req, res) {
         res.clearCookie('secretToken');
+        res.status(200);
         res.redirect('/users/login');
     },
 
@@ -277,6 +287,7 @@ module.exports = {
         let token_decoded = jwt.verify(req.cookies['secretToken'], Token.key());
         Utilisateur.deleteInfos(token_decoded.id_utilisateur);
         res.clearCookie('secretToken');
+        res.status(200);
         res.redirect('/users/login')
     }
 }

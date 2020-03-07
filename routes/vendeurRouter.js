@@ -3,6 +3,7 @@ let router = express.Router();
 let vendeurCtrl = require('../controllers/vendeurCtrl');
 let produitCtrl = require('../controllers/produitCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
+let uploadHandler = require('../config/uploadCloud');
 
 
 router.use(usersMdlw.is_connected_for_navbar);
@@ -20,8 +21,9 @@ router.route('/profil_modify')
 router.route('/infos_clients')
     .get(vendeurCtrl.clients_list)
 
-router.get('/produit_create', produitCtrl.produit_create_get)
-router.post('/produit_create', produitCtrl.produit_create_post)
+router.route('/produit_create')
+    .get(produitCtrl.produit_create_get)
+    .post(produitCtrl.produit_create_post)
 
 router.route('/produit_update/:id')
     .get(produitCtrl.update_get)

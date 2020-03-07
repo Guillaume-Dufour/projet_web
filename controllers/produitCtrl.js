@@ -6,7 +6,6 @@ let jwt = require('jsonwebtoken');
 let fs = require('fs');
 let multer = require('multer');
 let multerGoogleStorage = require('multer-google-storage');
-//var uploadHandler = require('../config/uploadCloud').array('photo_produit', 1);
 
 var uploadHandler = multer({
     storage: multerGoogleStorage.storageEngine({
@@ -20,7 +19,6 @@ var uploadHandler = multer({
 module.exports = {
     liste: function (req, res) {
         Produit.getAllProduitsDispo(function (rows) {
-
             res.render('produits/liste', {produits: rows});
         })
     },
@@ -40,6 +38,12 @@ module.exports = {
                     res.render('produits/details', {produit: rows, avis: result});
                 }
             })
+        })
+    },
+
+    liste_type: function(req, res) {
+        Produit.getAllProduitsDispoByType(req.params.id_type_produit, function (rows) {
+            res.render('produits/liste', {produits: rows});
         })
     },
 
@@ -65,16 +69,14 @@ module.exports = {
         }
 
         Avis.create(data);
+        res.status(201);
         res.redirect('/produits/details/'+req.body.id_produit_avis);
     },
 
     avis_delete: function (req, res) {
         Avis.delete(req.body.id_utilisateur, req.body.id_produit)
+        res.status(200);
         res.end();
-    },
-
-    details_post: function(req, res) {
-
     },
 
     produit_create_get: function (req, res) {
@@ -84,25 +86,7 @@ module.exports = {
         })
     },
 
-    produit_create_post: function (req, res) {
-        console.log(req.body)
-        uploadHandler(req, res, function (err) {
-          if (err) {
-              throw err;
-          }
-          else {
-              console.log(req.body);
-              console.log(req.files)
-          }
-
-          res.end();
-
-      })
-    },
-
     /*produit_create_post: function (req, res) {
-
-
 
         var errors = [];
 
@@ -158,13 +142,7 @@ module.exports = {
                     bucket: 'projet_web_charcuterie_dufour_guillaume',
                 }),
             });
-            var upload = uploadHandler.any();
-            console.log(upload)
-            upload(req, res, function (err) {
-                if (err) console.log(err);
 
-                console.log(req.files);
-            })
             fs.stat('public/images/produits/'+data.gencod_produit+'.jpg', function (err) {
                 if (!err) {
                     let alphabet = "azertyuiopqsdfghjklmwxcvbn";
@@ -196,10 +174,69 @@ module.exports = {
         }
     },*/
 
+    produit_create_post: function (req, res) {
+
+        console.log(req.files)
+
+        var errors = [];
+
+        var data = {
+            libelle_produit: req.sanitize(req.body.libelle_produit),
+            id_type_produit: req.sanitize(req.body.id_type_produit),
+            prix_produit: req.sanitize(req.body.prix_produit),
+            poids_produit: req.sanitize(req.body.poids_produit),
+            provenance_produit: req.sanitize(req.body.provenance_produit),
+            est_bio: (req.sanitize(req.body.est_bio) === undefined ? 0 : 1),
+            est_dispo: 0,
+            gencod_produit: req.sanitize(req.body.gencod_produit)
+        }
+
+        if (data.libelle_produit.length > 100) {
+            errors.push("Le nom du produit est trop long");
+            delete data.libelle_produit;
+        }
+
+        if (data.id_type_produit === undefined) {
+            errors.push("Aucun type de produit saisi")
+        }
+
+        if (data.prix_produit < 0) {
+            errors.push("Le prix n'est pas valide");
+            delete data.prix_produit;
+        }
+
+        if (data.poids_produit < 0) {
+            errors.push("Le poids n'est pas valide");
+            delete data.poids_produit;
+        }
+
+        if (data.gencod_produit.length > 20) {
+            errors.push("Le GENCOD est trop long");
+            delete data.gencod_produit;
+        }
+
+        if (req.files.photo_produit === undefined) {
+            errors.push("Aucune photo choisie");
+        }
+
+        if (errors.length > 0) {
+            Produit.getAllTypesProduits(function (rows) {
+                res.render('produits/create', {types: rows, data: data});
+            })
+        }
+        else {
+            Produit.create(data);
+            res.redirect('/users/homepage');
+        }
+    },
+
+
+
     produit_update_dispo: function(req, res) {
 
         let est_dispo = (req.body.value === '1' ? '0' : '1');
         Produit.updateDispo(req.body.id_produit, est_dispo);
+        res.status(200);
         res.end();
     },
 
@@ -269,6 +306,7 @@ module.exports = {
         }
         else {
             Produit.update(req.body.id_produit, data);
+            res.status(200);
             res.redirect('/users/vendeur/produit_manage');
         }
     }

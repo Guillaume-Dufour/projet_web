@@ -6,27 +6,9 @@ let Token = require('../models/token');
 let jwt = require('jsonwebtoken')
 let fs = require('fs');
 let moment = require('moment-fr');
-let nodemail = require('nodemailer');
-
-let transporter = nodemail.createTransport({
-    service: 'gmail',
-    auth: {
-        user: '',
-        pass: ''
-    }
-})
-
 
 module.exports = {
     homepage: function (req, res) {
-
-        /*const options = {
-            to: 'guillaume78.dufour@gmail.com',
-            subjects: "Test",
-            text: "Salut"
-        };
-        transporter.sendMail(options);*/
-
         res.render('users/vendeur/homepage');
     },
 
@@ -115,6 +97,7 @@ module.exports = {
             }
 
             Commande.getAllStatutsCommande(function (results) {
+                res.status(200);
                 res.render('users/vendeur/commande_list_day', {commandes: rows, statuts_commande: results});
             })
         })
@@ -122,6 +105,7 @@ module.exports = {
 
     commande_put: function (req, res) {
         Commande.updateStatutCommande(req.body.id_commande, req.body.id_statut_commande);
+        res.status(200);
         res.end();
     },
 
@@ -148,8 +132,8 @@ module.exports = {
                 data.push(rows[i].nb);
             }
 
+            res.status(200);
             res.render('users/vendeur/stats', {libelles: labels, donnees: data});
         })
     }
-
 }

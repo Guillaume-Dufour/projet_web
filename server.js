@@ -6,6 +6,7 @@ let produitRouter = require('./routes/produitRouter')
 let vendeurRouter = require('./routes/vendeurRouter');
 let adminRouter = require('./routes/adminRouter');
 let userMdlw = require('./middlewares/usersMdlw');
+let produitMdlw = require('./middlewares/produitMdlw');
 let expressSanitizer = require('express-sanitizer');
 let cookieParser = require('cookie-parser');
 var jwt = require('jsonwebtoken');
@@ -51,22 +52,22 @@ app.use(fileUpload());
 
 app.set('view engine', 'ejs');
 
+
+app.use(produitMdlw.liste_type_produit_nav_bar);
+
 app.use('/users', userRouter);
 app.use('/users/client', clientRouter);
 app.use('/users/vendeur', vendeurRouter);
 app.use('/users/admin', adminRouter);
 app.use('/produits', produitRouter);
 
-
-
-
 app.get('/', userMdlw.is_connected_for_navbar, userMdlw.type_user, function (req, res) {
     res.render('accueil')
 })
 
-/*app.get('*', function (req, res) {
+app.get('*', userMdlw.is_connected_for_navbar, userMdlw.type_user, function (req, res) {
     res.status(404);
-    res.render('error')
-});*/
+    res.render('error');
+})
 
 app.listen(8080);

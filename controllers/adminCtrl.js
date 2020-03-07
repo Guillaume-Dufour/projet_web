@@ -26,6 +26,7 @@ module.exports = {
 
     delete_infos_user: function (req, res) {
         Utilisateur.deleteInfos(req.body.id_utilisateur);
+        res.status(200);
         res.end();
     },
 
@@ -111,6 +112,7 @@ module.exports = {
 
             if (errors.length === 0) {
                 Utilisateur.create(data);
+                res.status(201);
                 res.redirect('/users/homepage');
             }
             else {
