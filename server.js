@@ -70,4 +70,8 @@ app.get('*', userMdlw.is_connected_for_navbar, userMdlw.type_user, function (req
     res.render('error');
 })
 
-app.listen(8080);
+let port = process.env.PORT;
+if (port === null) {
+    port=8080;
+}
+app.listen(port);
