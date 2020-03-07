@@ -14,7 +14,7 @@ var connexion = mysql.createPool({
     password: '0f9a566c'
 });
 
-connexion.connect(function (err) {
+connexion.getConnection(function (err) {
     if (err)
         throw err;
 
