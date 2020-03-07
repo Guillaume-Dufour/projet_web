@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
+
+    <%- include('./navigation2'); %>
+</head>
+
+<body>
+
+<div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
+    <% if (locals.error) { %>
+    <div class="alert alert-danger">
+        <%= error %>
+    </div>
+</div>
+<% } %>
+</body>
+</html>

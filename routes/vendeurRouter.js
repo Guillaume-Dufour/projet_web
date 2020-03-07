@@ -3,6 +3,8 @@ let router = express.Router();
 let vendeurCtrl = require('../controllers/vendeurCtrl');
 let produitCtrl = require('../controllers/produitCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
+let uploadHandler = require('../config/uploadCloud');
+
 
 router.use(usersMdlw.is_connected_for_navbar);
 router.use(usersMdlw.is_vendeur);
@@ -43,5 +45,29 @@ router.route('/commandes_client/:id')
 
 router.route('/stats')
     .get(vendeurCtrl.stats)
+
+router.get('/upload', function (req, res) {
+    res.render('testform');
+})
+
+/*router.post(
+
+    '/upload',
+
+    multer.single('image'),
+
+    gcsMiddlewares.sendUploadToGCS,
+
+    (req, res, next) => {
+
+        if (req.file && req.file.gcsUrl) {
+
+            return res.send(req.file.gcsUrl);
+        }
+        return res.status(500).send('Unable to upload');
+
+    },
+
+);*/
 
 module.exports = router;
