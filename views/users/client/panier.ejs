@@ -28,7 +28,7 @@
             let prix = panier[i].quantite*panier[i].poids_produit*panier[i].prix_produit;
             prix = Math.round(prix*100)/100; %>
         <tr id="ligne_<%= i%>">
-            <td><img src="/public/images/produits/<%= panier[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
+            <td><img src="<%= panier[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
             <td><%= panier[i].libelle_produit %></td>
             <td id="prix<%= i %>"><%= panier[i].prix_produit %> € / kg</td>
             <td><% if (panier[i].poids_produit < 1) { %>

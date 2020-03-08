@@ -25,7 +25,7 @@
     <tbody>
     <% for (var i = 0; i < produits.length; i++) { %>
         <tr id="ligne_<%= i %>">
-            <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
+            <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
             <th><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
             <td><%= produits[i].provenance_produit %></td>
             <td><%= produits[i].prix_produit %> € / kg</td>
@@ -53,7 +53,6 @@
                         data: {id_produit: <%= produits[i].id_produit %>},
                         dataType: 'html',
                         success: function () {
-                            console.log("Ca marche")
                             $(document.getElementById('ligne_<%= i %>')).toggle('fast');
 
                         }
