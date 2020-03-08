@@ -21,7 +21,6 @@ app.use(bodyParser.json());
 app.use(expressSanitizer());
 app.use(cookieParser());
 app.use(methodOverride('_method'));
-app.use(fileUpload());
 
 app.set('view engine', 'ejs');
 
