@@ -24,7 +24,7 @@
         <tbody id="list_produits">
         <% for (var i = 0; i < produits.length; i++) { %>
             <tr>
-                <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
+                <td><a href="/produits/details/<%= produits[i].id_produit %>"><img src="<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></a></td>
                 <th id="nom_produit"><a href="/produits/details/<%= produits[i].id_produit %>"><%= produits[i].libelle_produit %></a></th>
                 <td><%= produits[i].provenance_produit %></td>
                 <td><%= produits[i].prix_produit %> € / kg</td>
