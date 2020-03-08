@@ -13,7 +13,6 @@
 <table class="table">
     <thead class="thead-dark">
     <tr>
-        <th scope="col">Photo</th>
         <th scope="col">Nom</th>
         <th scope="col">Type</th>
         <th scope="col">Prix</th>
@@ -27,7 +26,6 @@
     <tbody id="list_produits">
     <% for (var i = 0; i < produits.length; i++) { %>
         <tr>
-            <td><img src="/public/images/produits/<%= produits[i].photo_produit %>" width="100" class="img-fluid" alt="Responsive image"></td>
             <td><%= produits[i].libelle_produit %></td>
             <td><%= produits[i].type %></td>
             <td id="lebron<%= i %>"><%= produits[i].prix_produit %> € / kg</td>
