@@ -18,10 +18,6 @@ class Panier {
             if (err) {
                 throw err;
             }
-            else {
-                console.log(rows)
-            }
-
         });
     }
 

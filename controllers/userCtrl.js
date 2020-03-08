@@ -8,7 +8,7 @@ module.exports = {
         res.render('inscription', {errors: [], data: ""});
     },
 
-    inscription_post: async function (req, res) {
+    inscription_post: function (req, res) {
 
         var errors = [];
 
@@ -74,9 +74,6 @@ module.exports = {
                 res.render('inscription', { errors : errors, data: data });
             }
         })
-
-
-
     },
 
     login_get: function (req, res) {
@@ -135,7 +132,6 @@ module.exports = {
         else {
             res.redirect('/users/login')
         }
-
     },
 
     profil: function (req, res) {
@@ -255,8 +251,6 @@ module.exports = {
                     errors.push("Mail déjà existant");
                     data.delete('mail_utilisateur');
                 }
-
-                console.log(errors)
 
                 if (errors.length === 0) {
                     Utilisateur.getUserByMail(old_mail, function (row) {

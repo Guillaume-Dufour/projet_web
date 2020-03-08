@@ -31,7 +31,6 @@ class Client {
 
         connexion.query(requete, [id_utilisateur, id_produit], function (err) {
             if (err) {
-                console.log(err)
                 throw err;
             }
         })

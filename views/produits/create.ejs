@@ -11,7 +11,7 @@
 <body>
 
 <div class="container col-lg-4 col-md-4 col-sm-12 col-xs-12">
-    <form method="post" action="/users/vendeur/produit_create" enctype="multipart/form-data">
+    <form method="post" action="/users/vendeur/produit_create">
         
         <div class="form-group">
             <label for="libelle_produit">Nom</label> :
@@ -54,11 +54,6 @@
             <label for="gencod_produit">Gencod</label> :
             <input type="text" class="form-control" name="gencod_produit" id="gencod_produit" <% if (data !== undefined && data.gencod_produit !== undefined) {
             %> value="<%= data.gencod_produit %>" <% } %> />
-        </div>
-
-        <div class="form-group">
-            <label for="photo_produit">Photo</label> :
-            <input type="file" name="photo_produit" multiple>
         </div>
 
         <div class="form-group text-center">

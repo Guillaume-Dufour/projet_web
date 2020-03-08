@@ -110,7 +110,6 @@ class Utilisateur {
         let keys = data.keys();
 
         for (let key of keys) {
-            console.log(key);
             requete += " "+key+" = ?,";
             values.push(data.get(key));
         }

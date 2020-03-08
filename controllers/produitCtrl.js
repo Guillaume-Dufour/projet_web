@@ -4,17 +4,6 @@ let Avis = require('../models/avis');
 let Token = require('../models/token');
 let jwt = require('jsonwebtoken');
 let fs = require('fs');
-let multer = require('multer');
-let multerGoogleStorage = require('multer-google-storage');
-
-var uploadHandler = multer({
-    storage: multerGoogleStorage.storageEngine({
-        keyFilename: "./keys.json",
-        projectId: 'gleaming-realm-270117',
-        bucket: 'projet_web_charcuterie_dufour_guillaume',
-    })
-}).array('photo_produit',1);
-
 
 module.exports = {
     liste: function (req, res) {
@@ -176,8 +165,6 @@ module.exports = {
 
     produit_create_post: function (req, res) {
 
-        console.log(req.files)
-
         var errors = [];
 
         var data = {
@@ -215,9 +202,6 @@ module.exports = {
             delete data.gencod_produit;
         }
 
-        if (req.files.photo_produit === undefined) {
-            errors.push("Aucune photo choisie");
-        }
 
         if (errors.length > 0) {
             Produit.getAllTypesProduits(function (rows) {

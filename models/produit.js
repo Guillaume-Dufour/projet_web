@@ -65,7 +65,6 @@ class Produit {
             else {
                 cb(rows);
             }
-
         })
     }
 
@@ -106,7 +105,7 @@ class Produit {
             if (err) {
                 throw err;
             }
-        })
+        });
     }
 }
 

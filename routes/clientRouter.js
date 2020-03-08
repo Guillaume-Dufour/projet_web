@@ -3,8 +3,6 @@ let router = express.Router();
 let clientCtrl = require('../controllers/clientCtrl');
 let userCtrl = require('../controllers/userCtrl');
 let usersMdlw = require('../middlewares/usersMdlw');
-let jwt = require('jsonwebtoken');
-
 
 router.use(usersMdlw.is_connected_for_navbar);
 router.use(usersMdlw.is_client);

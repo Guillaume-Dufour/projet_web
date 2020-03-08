@@ -4,7 +4,6 @@ let Client = require('../models/client');
 let Produit = require('../models/produit');
 let Token = require('../models/token');
 let jwt = require('jsonwebtoken')
-let fs = require('fs');
 let moment = require('moment-fr');
 
 module.exports = {
@@ -117,7 +116,6 @@ module.exports = {
             }
 
             res.render('users/vendeur/produit_manage', {produits: rows})
-
         })
     },
 

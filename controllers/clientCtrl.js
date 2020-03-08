@@ -42,6 +42,7 @@ module.exports = {
                 rows[i].date_commande = date_temp;
             }
 
+            res.status(200);
             res.render('users/client/commandes_list', {commandes : rows});
         });
     },
@@ -53,6 +54,7 @@ module.exports = {
                 rows[i].prix = rows[i].quantite_produit*rows[i].prix_produit*rows[i].poids_produit;
             }
 
+            res.status(200);
             res.render('users/client/commande_details', {commande : rows});
         })
     },
@@ -139,7 +141,4 @@ module.exports = {
         res.status(200);
         res.end();
     }
-
-
-
 }

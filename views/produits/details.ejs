@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="/public/stylesheets/bootstrap.min.css">
-    <title>Détails du produit</title>
+    <title>Détails produit</title>
     <%- include('../general/navigation'); %>
 </head>
 
@@ -94,9 +94,6 @@
 
                             $(document.getElementById('avis_<%= i %>')).toggle('fast');
 
-                        },
-                        error: function () {
-                            console.log("Erreur");
                         }
                     })
                 });

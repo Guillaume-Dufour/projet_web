@@ -46,6 +46,7 @@ module.exports = {
                 }
             }
 
+            res.status(200);
             res.render('users/admin/list_users', {utilisateurs: rows});
         })
     },

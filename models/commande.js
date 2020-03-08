@@ -54,10 +54,7 @@ class Commande {
                 cb(rows);
             }
         })
-
     }
-
-
 
     static exist(id_commande, cb) {
 
@@ -68,7 +65,6 @@ class Commande {
                 throw err;
             }
             else {
-                console.log(row[0]);
                 cb(row[0].nb);
             }
         })
