@@ -7,12 +7,7 @@ var mysql = require('mysql');
     password: ''
 });*/
 
-var connexion = mysql.createPool({
-    database: 'heroku_e8bbb531c7959a6',
-    host: 'eu-cdbr-west-02.cleardb.net',
-    user: 'b8ea25e5578da9',
-    password: '0f9a566c'
-});
+var connexion = mysql.createPool(process.env.CLEARDB_DATABASE_URL);
 
 connexion.getConnection(function (err) {
     if (err)
