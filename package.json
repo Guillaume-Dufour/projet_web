@@ -15,7 +15,7 @@
     "debug": "~2.6.9",
     "ejs": "^3.0.1",
     "express": "^4.16.4",
-    "express-fileupload": "^1.1.6",
+    "express-fileupload": "^1.1.9",
     "express-flash-messages": "^0.1.1",
     "express-sanitizer": "^1.0.5",
     "formidable": "^1.2.2",
