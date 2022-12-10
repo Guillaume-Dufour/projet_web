@@ -14,7 +14,7 @@
     "cookies": "^0.8.0",
     "debug": "~2.6.9",
     "ejs": "^3.0.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-fileupload": "^1.1.6",
     "express-flash-messages": "^0.1.1",
     "express-sanitizer": "^1.0.5",
